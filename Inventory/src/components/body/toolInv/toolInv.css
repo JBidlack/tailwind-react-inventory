@@ -1,0 +1,26 @@
+.head{
+    font-size: 26px;
+    font-weight: bold;
+}
+
+.addTool{
+    height:75%;
+}
+
+.toolInfoCO{
+    width:50%;
+    overflow: hidden;
+    position:absolute;
+    top:25%;
+}
+
+.toolInfoCO > .head{
+    position: relative;
+}
+
+.toolInfoCO > div{
+    display:flex;
+    justify-content: center;
+    margin: 20px;
+    margin: 20px;
+}

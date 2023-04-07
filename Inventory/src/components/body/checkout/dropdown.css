@@ -1,0 +1,12 @@
+
+.dropdown {
+    position:absolute;
+    box-sizing:border-box;
+    width: inherit;
+    border: 1px solid #2d3748;
+    border-radius:5%;
+    display: none;
+}
+.dropdown.visible{
+    display: block;
+}

@@ -1,0 +1,25 @@
+.checkout{
+    width:100%;
+}
+
+.empInfoCO{
+    width:50%;
+    overflow: hidden;
+    position:absolute;
+    top:25%;
+}
+.empInfoCO > div{
+    display:flex;
+    justify-content: center;
+    margin: 20px;
+    margin: 20px;
+}
+
+div > label{
+    margin-right: 20px;
+}
+
+.inventoryList{
+
+}
+
