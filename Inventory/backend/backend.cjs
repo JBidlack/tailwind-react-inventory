@@ -1,20 +1,25 @@
 const express = require('express');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const { MongoClient } = require('mongodb');
 const mongoose = require('mongoose');
 require('dotenv').config();
 
-
 const app = express();
-const port = 3000;
+const port = 3030;
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
+app.use(express.json());
 
-const uri = "mongodb+srv://jbidlack:${}@cluster0.eelwcmd.mongodb.net/?retryWrites=true&w=majority";
+const uri = process.env.uri;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 mongoose.connect(uri);
+
+app.listen(port, () => {
+  console.log(`Server listening at http://localhost:${port}`);
+});
+
 
 app.get('/items', async (req, res) => {
   try {
@@ -53,8 +58,4 @@ app.put('/items/:id', async (req, res) => {
   } finally {
     await client.close();
   }
-});
-
-app.listen(port, () => {
-  console.log(`Server listening at http://localhost:${port}`);
 });
