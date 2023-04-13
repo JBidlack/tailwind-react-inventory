@@ -9,10 +9,8 @@ import { Query } from 'appwrite';
 function Checkout (e) {
 
     const [empName, setEmpName] = useState(true);
-    const [inStock, setInStock] = useState(true);
     const [items, setItems] = useState([]);
     const [loader, setLoader] = useState(false);
-    const [inputValue, setInputValue] = useState("");
     const [rows, setRows] = useState(7);
     const [componentStates, setComponentStates] = useState(
         [...Array(rows)].map(() => ({
@@ -240,7 +238,6 @@ function Checkout (e) {
                         <thead className='text-sm mb-6'>
                             <tr>
                                 <th>Part Name</th>
-                                {/* <th>ID</th> */}
                                 <th>Quantity</th>
                             </tr>
                         </thead>
@@ -260,10 +257,6 @@ function Checkout (e) {
                                         />
 
                                     </td>
-                                    {/* <td>
-                                        <input type='text' name={`Id${i}`} className='max-w-1/3 overflow-hidden text-ellipsis border
-                                        border-gray-400 rounded-md mb-2' />
-                                    </td> */}
                                     <td>
                                         <input type='number' name={`quantity${i}`} className='max-w-1/3 overflow-hidden text-ellipsis border
                                         border-gray-400 rounded-md mb-2' min="1" required />
