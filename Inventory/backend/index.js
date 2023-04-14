@@ -11,13 +11,13 @@ const port = 3030;
 app.use(cors());
 app.use(express.json());
 
-const uri = process.env.uri;
+const uri = process.env.DATABASE;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 mongoose.connect(uri);
 
 app.listen(port, () => {
-  console.log(`Server listening at http://localhost:${port}`);
+  console.log(`Server listening at ${port}`);
 });
 
 
