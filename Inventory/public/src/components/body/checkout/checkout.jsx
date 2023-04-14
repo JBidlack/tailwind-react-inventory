@@ -1,10 +1,8 @@
 import React, {useState, useEffect, useRef, useMemo} from 'react';
-import { database } from '../../appwriteConfig.jsx';
 import SelectComponent from './dropdown.jsx';
 import '../../../App.css';
-import { Query } from 'appwrite';
 import axios from 'axios';
-import env from 'dotenv';
+
 
 const uri = import.meta.env.uri;
 
