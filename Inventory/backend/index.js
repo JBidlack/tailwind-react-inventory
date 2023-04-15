@@ -49,7 +49,7 @@ app.get('/items', async (req, res) => {
   try {
     await client.connect();
     const database = client.db('Inventory');
-    const collection = database.collection('Office_Inventory');
+    const collection = database.collection('officeInventory');
     const query = { inStock: true };
     const items = await collection.find(query).toArray();
     res.send(items);
