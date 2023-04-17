@@ -3,9 +3,7 @@ import SelectComponent from './dropdown.jsx';
 import '../../../App.css';
 import axios from 'axios';
 
-
-const uri = import.meta.env.uri;
-
+axios.defaults.baseURL='https://inventory-backend-g3hs.onrender.com/';
 
 function Checkout (e) {
 
@@ -38,9 +36,10 @@ function Checkout (e) {
 
     useEffect(() => {
       setLoader(true);
-      axios.get(uri, '/api/items')
+      axios.get('/api/items')
           .then((response) => {
-          setItems(response.data);
+            const data = response.data;
+          setItems(data);
           setLoader(false);
           })
           .catch((error) => {
