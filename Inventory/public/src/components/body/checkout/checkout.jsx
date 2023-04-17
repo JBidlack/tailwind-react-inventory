@@ -3,9 +3,7 @@ import SelectComponent from './dropdown.jsx';
 import '../../../App.css';
 import axios from 'axios';
 
-
-// const uri = import.meta.env.uri;
-
+axios.defaults.baseURL='https://inventory-backend-g3hs.onrender.com/';
 
 function Checkout (e) {
 
