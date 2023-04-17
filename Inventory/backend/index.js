@@ -10,15 +10,15 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get('/api/items', (req, res) => {
-  const item = {
-    _id: '',
-    Item: '',
-    unit:'',
-    Quantity:'',
-    Reorder: '',
-  }
-});
+// app.get('/api/items', (req, res) => {
+//   const item = {
+//     _id: '',
+//     Item: '',
+//     unit:'',
+//     Quantity:'',
+//     Reorder: '',
+//   }
+// });
 
 const uri = process.env.DATABASE;
 const port = 27017 || 3000;
