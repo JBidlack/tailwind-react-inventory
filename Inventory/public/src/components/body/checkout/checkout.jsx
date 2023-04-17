@@ -4,7 +4,7 @@ import '../../../App.css';
 import axios from 'axios';
 
 
-const uri = import.meta.env.uri;
+// const uri = import.meta.env.uri;
 
 
 function Checkout (e) {
@@ -38,9 +38,10 @@ function Checkout (e) {
 
     useEffect(() => {
       setLoader(true);
-      axios.get(uri, '/api/items')
+      axios.get('/api/items')
           .then((response) => {
-          setItems(response.data);
+            const data = response.data;
+          setItems(data);
           setLoader(false);
           })
           .catch((error) => {

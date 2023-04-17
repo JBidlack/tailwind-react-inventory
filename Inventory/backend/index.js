@@ -11,49 +11,74 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get('/api/items', (req, res) => {
-  const item = {
-    _id: '',
-    Item: '',
-    unit:'',
-    Quantity:'',
-    Reorder: '',
-  }
-});
+// app.get('/api', (req, res) => {
+//   const item = {
+//     _id: String,
+//     Item: String,
+//     unit:String,
+//     Quantity:Number,
+//     Reorder: Number,
+//   }
+// });
 
 const uri = process.env.DATABASE;
 const port = 27017 || 3000;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
-// mongoose.connect(uri);
+mongoose.connect(uri || 'mongodb://localhost/Inventory');
+
+//verifies mongodb connection was successful
+mongoose.connection.on('connected', () => {
+  console.log("We have liftoff!");
+});
+
+// schema
+const schema = mongoose.Schema({
+  _id: String,
+  Item: String,
+  unit:String,
+  Quantity:Number,
+  Reorder: Number,
+});
+
+const InvItem = mongoose.model('InventoryItems', schema);
 
 app.listen(port, () => {
   console.log(`Server listening at ${port}`);
 });
 
-async function run() {
-  try {
-    // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
-    // Send a ping to confirm a successful connection
-    await client.db("Inventory").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
-  }
-}
-run().catch(console.dir);
+// async function run() {
+//   try {
+//     // Connect the client to the server	(optional starting in v4.7)
+//     await client.connect();
+//     // Send a ping to confirm a successful connection
+//     await client.db("Inventory").command({ ping: 1 });
+//     console.log("Pinged your deployment. You successfully connected to MongoDB!");
+//   } finally {
+//     // Ensures that the client will close when you finish/error
+//     await client.close();
+//   }
+// }
+// run().catch(console.dir);
 
+//Routes
 
-app.get('/items', async (req, res) => {
+app.get('/api/items', async (req, res) => {
   try {
     await client.connect();
-    const database = client.db('Inventory');
-    const collection = database.collection('Office_Inventory');
-    const query = { inStock: true };
-    const items = await collection.find(query).toArray();
-    res.send(items);
+    InvItem.find({ })
+      .then((data) => {
+        console.log("Data: ", data);
+        res.send(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+
+    // const database = client.db('Inventory');
+    // const collection = database.collection('InventoryItems');
+    // const items = await collection.find().toArray();
+    // res.send(items);
   } catch (err) {
     console.log(err);
     res.status(500).send({ error: 'Internal server error' });
