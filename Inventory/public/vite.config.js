@@ -1,15 +1,18 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import envCompatible from 'vite-plugin-env-compatible';
 
 
 // https://vitejs.dev/config/
 export default defineConfig({
   server: {
-    port: 3030,
+    port: 27017,
   },
   preview: {
     port: 8000,
   },
   base: `/`,
-  plugins: [react()],
+  plugins: [
+    react()
+  ],
 })

@@ -86,15 +86,15 @@ app.get('/api/items', async (req, res) => {
   }
 });
 
-app.put('/items/:id', async (req, res) => {
-  const id = req.params.id;
+app.put('/api/items/', async (req, res) => {
+  const id = req.params.Item;
   const { quantity } = req.body;
   try {
     await client.connect();
     const database = client.db('inventory');
     const collection = database.collection('Office_Inventory');
     const item = await collection.findOneAndUpdate(
-      { _id: id, inStock: true },
+      { Item: id, inStock: true },
       { $inc: { quantity: -quantity }, $set: { inStock: { $cond: { if: { $lte: ['$quantity', quantity] }, then: false, else: true } } } }
     );
     if (!item) {

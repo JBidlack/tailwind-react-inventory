@@ -29,10 +29,6 @@ const SelectComponent = ({
         };
     }, [ref]);
 
-    useEffect(() => {
-
-    })
-
 
     const onInputChange = (e) => {
         setInputValues(e.target.value);

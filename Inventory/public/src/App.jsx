@@ -5,10 +5,15 @@ import Checkout from './components/body/checkout/checkout';
 import Checkin from './components/body/invCheckin/checkIn';
 import LogIn from './components/login/login'
 import SignUp from './components/signup/signup'
+import axios from 'axios';
 import './App.css';
 
 function App() {
+
+  // Declare axios default url here to prevent unneeded repetition
   
+  axios.defaults.baseURL= 'https://inventory-backend-g3hs.onrender.com';
+
   return (
     <Router >
         <Routes>
@@ -24,3 +29,5 @@ function App() {
 }
 
 export default App
+
+export const server = axios.defaults.baseURL= 'https://inventory-backend-g3hs.onrender.com';

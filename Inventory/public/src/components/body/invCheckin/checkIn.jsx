@@ -1,9 +1,8 @@
-import React, {useState, useEffect, useRef, useMemo} from 'react';
-import {v4 as uuid} from 'uuid';
-import { database } from '../../appwriteConfig.jsx';
-import SelectComponent from '../checkout/dropdown.jsx';
+import React, {useState, useEffect} from 'react';
+import SelectComponent from '../checkout/dropdown';
 import '../../../App.css';
-import { Query } from 'appwrite';
+import axios from 'axios';
+
 
 
 
@@ -23,11 +22,11 @@ function CheckIn (e) {
 
     const handleInputChange = (value, index) => {
         setComponentStates((prevStates) => {
-            const newState = [...prevStates];
-            newState[index].selectedValue = value;
-            return newState;
+          const newState = [...prevStates];
+          newState[index].selectedValue = value;
+          return newState;
         });
-    };
+      };
     
     const handleInputValueChange = (value, index) => {
         setComponentStates((prevStates) => {
@@ -38,23 +37,18 @@ function CheckIn (e) {
     };
 
 
-    useEffect(() => { 
-        setLoader(true)
-        const getList = database.listDocuments(`63f95ccf1463e4b148da`, 
-        `63f95d32f07897fab85e`);
-
-        
-        getList.then(
-            function (response){
-                setItems(response.documents);
-                setLoader(false);
-            },
-            function (error){
-                console.log(error); 
-                setLoader(false);
-            }
-        );
-
+    useEffect(() => {
+      setLoader(true);
+      axios.get('/api/items')
+          .then((response) => {
+            const data = response.data;
+          setItems(data);
+          setLoader(false);
+          })
+          .catch((error) => {
+          console.log(error);
+          setLoader(false);
+          });
     }, []);
 
 
@@ -101,11 +95,10 @@ function CheckIn (e) {
         e.preventDefault();
         
         const form = document.querySelector('form');
-        let selectComponent, partIdInput, quantityInput;
+        let selectComponent, quantityInput;
 
         const emptyRow = [...Array(rows)].find((_, i) => {
             selectComponent = componentStates[i].inputValue;
-            partIdInput = form.querySelector(`input[name=Id${i}]`);
             unitInput = form.querySelector(`input[name=unit${i}]`);
             reorderInput = form.querySelector(`input[name=reorder${i}]`);
             quantityInput = form.querySelector(`input[name=quantity${i}]`);
@@ -132,7 +125,7 @@ function CheckIn (e) {
                                 {
                                     'Item': selectComp,
                                     'Quantity': Qinput,
-                                    'ItemNum': partIdInput.value,
+
                                     'unit': unitInput.value,
                                     'reorder': reorderInput.value,
 

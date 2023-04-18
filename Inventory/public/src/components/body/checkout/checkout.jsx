@@ -1,9 +1,8 @@
-import React, {useState, useEffect, useRef, useMemo} from 'react';
+import React, {useState, useEffect} from 'react';
 import SelectComponent from './dropdown.jsx';
 import '../../../App.css';
 import axios from 'axios';
 
-axios.defaults.baseURL='https://inventory-backend-g3hs.onrender.com/';
 
 function Checkout (e) {
 
@@ -108,9 +107,8 @@ function Checkout (e) {
         alert('Please input quantity');
       }
       if (empName && selectComponent && quantityInput.value) {
-        axios.put('/api/items', {
-          item: selectComponent,
-          quantity: quantityInput.value
+        axios.put('/api/items/', {
+          Quantity: quantityInput.value
         })
           .then((response) => {
             setItems(previous => previous.map((item) => {

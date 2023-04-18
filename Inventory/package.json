@@ -1,5 +1,8 @@
 {
   "dependencies": {
     "concurrently": "^8.0.1"
+  },
+  "devDependencies": {
+    "vite-plugin-env-compatible": "^1.1.1"
   }
 }
