@@ -46,20 +46,6 @@ app.listen(port, () => {
   console.log(`Server listening at ${port}`);
 });
 
-// async function run() {
-//   try {
-//     // Connect the client to the server	(optional starting in v4.7)
-//     await client.connect();
-//     // Send a ping to confirm a successful connection
-//     await client.db("Inventory").command({ ping: 1 });
-//     console.log("Pinged your deployment. You successfully connected to MongoDB!");
-//   } finally {
-//     // Ensures that the client will close when you finish/error
-//     await client.close();
-//   }
-// }
-// run().catch(console.dir);
-
 //Routes
 
 app.get('/api/items', async (req, res) => {
@@ -103,8 +89,9 @@ app.put('/api/items/:Item', async (req, res) => {
   try {
     client.connect();
     const items = await InvItem.findOneAndUpdate(
-      { Item: req.params.Item},
-      { $inc: { Quantity: -quantity }}
+      { Item: req.params.Item },
+      { $set: { Quantity: req.body.Quantity } },
+      { new: true }
     );
     if (!items) {
       return res.status(404).send({ error: 'Item not found' });
