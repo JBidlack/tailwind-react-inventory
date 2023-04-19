@@ -46,26 +46,6 @@ function Checkout (e) {
           setLoader(false);
           });
     }, []);
-    
-    
-
-    // useEffect(() => { 
-    //     setLoader(true)
-    //     const getList = database.listDocuments(`63f95ccf1463e4b148da`, 
-    //     `63f95d32f07897fab85e`);
-
-    //     getList.then(
-    //         function (response){
-    //             setItems(response.documents);
-    //             setLoader(false);
-    //         },
-    //         function (error){
-    //             console.log(error); 
-    //             setLoader(false);
-    //         }
-    //     );
-
-    // }, []);
 
     const clearAll = (e) => {
         const form = document.querySelector('form');
