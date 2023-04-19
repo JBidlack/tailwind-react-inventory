@@ -86,6 +86,7 @@ app.get('/api/items', async (req, res) => {
 
 app.get('/api/items/:Item', async (req, res) => {
   try {
+    client.connect();
     const item = await InvItem.findOne({ Item: req.params.Item });
     if (!item) {
       return res.status(404).send({ error: 'Item not found' });
@@ -100,9 +101,10 @@ app.get('/api/items/:Item', async (req, res) => {
 app.put('/api/items/:Item', async (req, res) => {
 
   try {
+    client.connect();
     const items = await InvItem.findOneAndUpdate(
       { Item: req.params.Item},
-      { $inc: { quantity: -quantity }}
+      { $inc: { Quantity: -quantity }}
     );
     if (!items) {
       return res.status(404).send({ error: 'Item not found' });
