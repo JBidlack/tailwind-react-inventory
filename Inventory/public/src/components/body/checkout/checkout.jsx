@@ -107,8 +107,8 @@ function Checkout (e) {
         alert('Please input quantity');
       }
       if (empName && selectComponent && quantityInput.value) {
-        axios.put('/api/items/', {
-          Quantity: quantityInput.value
+        axios.put('/api/items/' + selectComponent, {
+          quantity: quantityInput.value
         })
           .then((response) => {
             setItems(previous => previous.map((item) => {

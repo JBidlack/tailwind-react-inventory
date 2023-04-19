@@ -64,7 +64,7 @@ app.listen(port, () => {
 
 app.get('/api/items', async (req, res) => {
   try {
-    await client.connect();
+
     InvItem.find({ })
       .then((data) => {
         console.log("Data: ", data);
@@ -81,22 +81,12 @@ app.get('/api/items', async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).send({ error: 'Internal server error' });
-  } finally {
-    await client.close();
-  }
+  } 
 });
 
-app.put('/api/items/', async (req, res) => {
-  const id = req.params.Item;
-  const { quantity } = req.body;
+app.get('/api/items/:Item', async (req, res) => {
   try {
-    await client.connect();
-    const database = client.db('inventory');
-    const collection = database.collection('Office_Inventory');
-    const item = await collection.findOneAndUpdate(
-      { Item: id, inStock: true },
-      { $inc: { quantity: -quantity }, $set: { inStock: { $cond: { if: { $lte: ['$quantity', quantity] }, then: false, else: true } } } }
-    );
+    const item = await InvItem.findOne({ Item: req.params.Item });
     if (!item) {
       return res.status(404).send({ error: 'Item not found' });
     }
@@ -104,7 +94,22 @@ app.put('/api/items/', async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).send({ error: 'Internal server error' });
-  } finally {
-    await client.close();
   }
+});
+
+app.put('/api/items/:Item', async (req, res) => {
+
+  try {
+    const items = await InvItem.findOneAndUpdate(
+      { Item: req.params.Item},
+      { $inc: { quantity: -quantity }}
+    );
+    if (!items) {
+      return res.status(404).send({ error: 'Item not found' });
+    }
+    res.send(items);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ error: 'Internal server error' });
+  } 
 });
