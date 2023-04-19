@@ -73,7 +73,7 @@ app.get('/api/items', async (req, res) => {
 app.get('/api/items/:Item', async (req, res) => {
   try {
     const item = await InvItem.findOneAndUpdate(
-      { Item: res.params.Item },
+      { Item: req.params.Item },
     );
     if (!item) {
       return res.status(404).send({ error: 'Item not found' });
