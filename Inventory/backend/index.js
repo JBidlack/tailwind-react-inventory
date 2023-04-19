@@ -89,9 +89,9 @@ app.put('/api/items/:Item', async (req, res) => {
   try {
     client.connect();
     const items = await InvItem.findOneAndUpdate(
-      { Item: req.params.Item },
-      { $set: { Quantity: req.body.Quantity } },
-      { new: true }
+  { Item: req.params.Item },
+  { $set: { $inc: { Quantity: -quantity } }},
+  { new: true }
     );
     if (!items) {
       return res.status(404).send({ error: 'Item not found' });
