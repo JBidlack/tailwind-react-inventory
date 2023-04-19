@@ -108,7 +108,6 @@ function Checkout (e) {
       }
       if (empName && selectComponent && quantityInput.value) {
         axios.put('/api/items/' + selectComponent, {
-          Item: selectComponent,
           Quantity: quantityInput.value
         })
           .then((response) => {

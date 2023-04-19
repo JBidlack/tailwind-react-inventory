@@ -91,7 +91,8 @@ app.put('/api/items/:Item', async (req, res) => {
     client.connect();
     const items = await InvItem.findOneAndUpdate(
   { Item: req.params.Item },
-  { Quantity: $inc -quantity },
+  { $inc: { Quantity: -quantity } },
+  {returnDocument: 'after'},
   { new: true }
     );
     if (!items) {
