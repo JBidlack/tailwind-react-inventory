@@ -90,7 +90,7 @@ app.put('/api/items/:Item', async (req, res) => {
     client.connect();
     const items = await InvItem.findOneAndUpdate(
   { Item: req.params.Item },
-  { $set: { $inc: { Quantity: -quantity } }},
+  { $set: { Quantity: req.params.Quantity-quantity } },
   { new: true }
     );
     if (!items) {
