@@ -88,7 +88,7 @@ app.get('/api/items/:Item', async (req, res) => {
 app.put('/api/items/:Item', async (req, res) => {
   try {
     const items = await InvItem.findOneAndUpdate(
-  { Item: req.params.Item },
+
   { $inc: { Quantity: -req.params.Quantity } },
   { new: true }
     );

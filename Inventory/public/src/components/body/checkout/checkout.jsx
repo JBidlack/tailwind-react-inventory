@@ -94,7 +94,7 @@ function Checkout (e) {
           .then((response) => {
             setItems(previous => previous.map((item) => {
               if (item.Item === selectComponent) {
-                return { ...item, Quantity: response.data }
+                return { ...item, Quantity: response.data.Quantity }
               }
               else {
                 return item
