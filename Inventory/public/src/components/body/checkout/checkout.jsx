@@ -47,6 +47,7 @@ function Checkout (e) {
           });
     }, []);
 
+
     const clearAll = (e) => {
         const form = document.querySelector('form');
         let Input;
@@ -87,9 +88,7 @@ function Checkout (e) {
         alert('Please input quantity');
       }
       if (empName && selectComponent && quantityInput.value) {
-        axios.put('/api/items/' + selectComponent, (req, res) => {
-          const currQuant = req.Quantity;
-          const newQuant = currQuant - quantityInput;
+        axios.put('/api/items/' + selectComponent, {
           Quantity: quantityInput.value
         })
           .then((response) => {
