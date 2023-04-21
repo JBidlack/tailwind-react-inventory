@@ -87,10 +87,10 @@ function Checkout (e) {
       if ((quantityInput.value < 1 || quantityInput.value === '') && selectComponent) {
         alert('Please input quantity');
       }
-      if (empName && selectComponent && quantityInput.value) {
+      if (empName && selectComponent && (quantityInput.value >= 1 || quantityInput.value !== '')) {
         axios.put('/api/items/' + selectComponent, {
-          Quantity: quantityInput.value
-        })
+          Quantity: parseInt(quantityInput.value)
+        }, console.log(Quantity))
           .then((response) => {
             setItems(previous => previous.map((item) => {
               if (item.Item === selectComponent) {
