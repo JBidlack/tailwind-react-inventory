@@ -90,7 +90,7 @@ function Checkout (e) {
       if (empName && selectComponent && (quantityInput.value >= 1 || quantityInput.value !== '')) {
         axios.put('/api/items/' + selectComponent, {
           Quantity: parseInt(quantityInput.value)
-        }, console.log(Quantity))
+        })
           .then((response) => {
             setItems(previous => previous.map((item) => {
               if (item.Item === selectComponent) {

@@ -72,13 +72,16 @@ app.get('/api/items', async (req, res) => {
 
 app.get('/api/items/:Item', async (req, res) => {
   try {
-    const item = await InvItem.findOneAndUpdate(
-      { Item: req.params.Item }, 
+    const item = req.params.Item;
+    const quant = req.params.Quantity;
+    const items = await InvItem.findOneAndUpdate(
+      { $inc: { Quantity: -quant } } 
     );
-    if (!item) {
+    if (!items) {
       return res.status(404).send({ error: 'Item not found' });
     }
-    res.send(item);
+    console.log(items);
+    res.send(items);
   } catch (err) {
     console.log(err);
     res.status(500).send({ error: 'Internal server error' });
