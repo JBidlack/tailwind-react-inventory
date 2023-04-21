@@ -89,7 +89,7 @@ app.get('/api/items', async (req, res) => {
 //   }
 // });
 
-app.put('/api/items/:Item', async (req, res) => {
+app.put('/api/items', async (req, res) => {
   try {
     const { item } = req.params.Item;
     const items = await InvItem.findOneAndUpdate(
@@ -110,7 +110,7 @@ app.put('/api/items/:Item', async (req, res) => {
       }
       res.send(items);
     } catch (err) {
-      console.log(err);
+      console.log(err.res.data);
       res.status(500).send({ error: 'Internal server error' });
   } 
 });
