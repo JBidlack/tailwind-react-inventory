@@ -71,46 +71,41 @@ app.get('/api/items', async (req, res) => {
   } 
 });
 
-// app.get('/api/items/:Item', async (req, res) => {
-//   try {
-//     const item = req.params.Item;
-//     const quant = req.params.Quantity;
-//     const items = await InvItem.findOneAndUpdate(
-//       { $inc: { Quantity: -quant } } 
-//     );
-//     if (!items) {
-//       return res.status(404).send({ error: 'Item not found' });
-//     }
-//     console.log(items);
-//     res.send(items);
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).send({ error: 'Internal server error' });
-//   }
-// });
+app.get('/api/items/:Item', async (req, res) => {
+  try {
+    const item = req.params.Item;
+    const quant = req.params.Quantity;
+    const items = await InvItem.findOneAndUpdate(
+      { $inc: { Quantity: -quant } } 
+    );
+    if (!items) {
+      return res.status(404).send({ error: 'Item not found' });
+    }
+    console.log(items);
+    res.send(items);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ error: 'Internal server error' });
+  }
+});
 
 app.put('/api/items/:Item', async (req, res) => {
   try {
-    const { item } = req.params.Item;
+    const { Quantity } = req.body;
+    if (isNaN(+Quantity)) {
+      return res.status(404).send({ error: 'Quantity must be a number' });
+    }
     const items = await InvItem.findOneAndUpdate(
-    { Item: item },
-    { $inc: { Quantity: -items.Quantity } }, 
-    {useFindAndModify: false},
-    (err) => {
-        if (err){
-          console.log(err);
-        }
-        else {
-          console,log("Success!");
-        }
-      }
-        );
-      if (!items) {
-        return res.status(404).send({ error: 'Item not found' });
-      }
-      res.send(items);
-    } catch (err) {
-      console.log(err.res.data);
-      res.status(500).send({ error: 'Internal server error' });
-  } 
+      { Item: req.params.Item },
+      { $inc: { Quantity: -parseInt(Quantity) } },
+      { new: true }
+    );
+    if (!items) {
+      return res.status(404).send({ error: 'Item not found' });
+    }
+    res.send(items);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ error: 'Internal server error' });
+  }
 });
