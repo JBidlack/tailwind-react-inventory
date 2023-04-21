@@ -102,7 +102,7 @@ function Checkout (e) {
             }))
           })
           .catch((error) => {
-            console.log(error)
+            console.log(error.response.data)
           });
       }
     });

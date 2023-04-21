@@ -1,7 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const { MongoClient } = require('mongodb');
+const  { MongoClient } = require('mongodb');
+const mongodb = require('mongodb');
 const mongoose = require('mongoose');
 require('dotenv').config();
 
@@ -70,48 +71,46 @@ app.get('/api/items', async (req, res) => {
   } 
 });
 
-app.get('/api/items/:Item', async (req, res) => {
-  try {
-    const item = req.params.Item;
-    const quant = req.params.Quantity;
-    const items = await InvItem.findOneAndUpdate(
-      { $inc: { Quantity: -quant } } 
-    );
-    if (!items) {
-      return res.status(404).send({ error: 'Item not found' });
-    }
-    console.log(items);
-    res.send(items);
-  } catch (err) {
-    console.log(err);
-    res.status(500).send({ error: 'Internal server error' });
-  }
-});
+// app.get('/api/items/:Item', async (req, res) => {
+//   try {
+//     const item = req.params.Item;
+//     const quant = req.params.Quantity;
+//     const items = await InvItem.findOneAndUpdate(
+//       { $inc: { Quantity: -quant } } 
+//     );
+//     if (!items) {
+//       return res.status(404).send({ error: 'Item not found' });
+//     }
+//     console.log(items);
+//     res.send(items);
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).send({ error: 'Internal server error' });
+//   }
+// });
 
 app.put('/api/items/:Item', async (req, res) => {
   try {
-    const item = req.params.Item;
-    console.log(item);
-    const quant = req.params.Quantity;
-    console.log(quant);
+    const { item } = req.params.Item;
     const items = await InvItem.findOneAndUpdate(
-  { Item: item },
-  { $inc: { Quantity: -quant } }, {useFindAndModify: false},
-  (err) => {
-    if (err){
+    { Item: item },
+    { $inc: { Quantity: -items.Quantity } }, 
+    {useFindAndModify: false},
+    (err) => {
+        if (err){
+          console.log(err);
+        }
+        else {
+          console,log("Success!");
+        }
+      }
+        );
+      if (!items) {
+        return res.status(404).send({ error: 'Item not found' });
+      }
+      res.send(items);
+    } catch (err) {
       console.log(err);
-    }
-    else {
-      console,log("Success!");
-    }
-  }
-    );
-    if (!items) {
-      return res.status(404).send({ error: 'Item not found' });
-    }
-    res.send(items);
-  } catch (err) {
-    console.log(err);
-    res.status(500).send({ error: 'Internal server error' });
+      res.status(500).send({ error: 'Internal server error' });
   } 
 });
