@@ -70,7 +70,7 @@ function CheckIn (e) {
         })
     }
 
-    function updateItems(e) {
+    function addItems(e) {
         e.preventDefault();
         
         const form = document.querySelector('form');
@@ -215,7 +215,7 @@ function CheckIn (e) {
                     <div className='flex justify-center'>
                         <button type='submit' className='text-black bg-yellow-400 
                         border-none rounded-md p-1 ml-2 mr-2 min-w-20 max-w-30 min-h-12 max-h-20'
-                        onClick={(e) => updateItems (e)} >
+                        onClick={(e) => addItems (e)} >
                             Submit</button>
                         <button type='button' className='text-black bg-yellow-400 
                         border-none rounded-md p-1 ml-2 min-w-20 max-w-30 min-h-12 max-h-20'
