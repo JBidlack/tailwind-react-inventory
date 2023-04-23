@@ -52,27 +52,6 @@ function CheckIn (e) {
     }, []);
 
 
-    // const textFill = (item) => {
-    //     const form = document.querySelector('form');
-    //     let partNameInput, partIdInput, quantityInput;
-    //     let empty = false;
-    //     const emptyRow = [...Array(rows)].find((_, i) => {
-    //         partNameInput = form.querySelector(`select[name=partName${i}]`);
-    //         partIdInput = form.querySelector(`input[name=Id${i}]`);
-    //         quantityInput = form.querySelector(`input[name=quantity${i}]`);
-
-    //     }
-    // );
-
-    //     if (empty) {
-    //         partNameInput.value = item.Item; 
-    //         partIdInput.value = item.ItemNum;
-    //         quantityInput.value = item.Quantity;
-    //     } else{
-    //         alert('All rows are filled.');
-    //     }
-    // };
-
     const clearAll = (e) => {
         const form = document.querySelector('form');
         let Input;
@@ -103,14 +82,8 @@ function CheckIn (e) {
             reorderInput = form.querySelector(`input[name=reorder${i}]`);
             quantityInput = form.querySelector(`input[name=quantity${i}]`);
             if (selectComponent && quantityInput.value) {
-
-                  const result = database.listDocuments(
-                    '63f95ccf1463e4b148da', 
-                    '63f95d32f07897fab85e',
-                    [
-                        Query.equal('Item', selectComponent)
-                    ]
-                  );
+                axios
+   
 
                   const selectComp = selectComponent
                   const Qinput = quantityInput.value
