@@ -8,10 +8,11 @@ import axios from 'axios';
 
 function CheckIn (e) {
 
-    const [values, setValues] = useState('');
+    const [empName, setEmpName] = useState(true);
+
     const [items, setItems] = useState([]);
     const [loader, setLoader] = useState(false);
-    const [inputValue, setInputValue] = useState("");
+
     const [rows, setRows] = useState(7);
     const [componentStates, setComponentStates] = useState(
         [...Array(rows)].map(() => ({
@@ -75,41 +76,44 @@ function CheckIn (e) {
         
         const form = document.querySelector('form');
         let selectComponent, quantityInput, unitInput, reorderInput;
+        let nameInput = form.querySelector(`input[name=employeeName]`);
+
+        if (nameInput.value === '') {
+          setEmpName(false);
+        }
+        else {
+          setEmpName(true);
+        }
 
         const emptyRow = [...Array(rows)].find((_, i) => {
             selectComponent = componentStates[i].inputValue;
             unitInput = form.querySelector(`input[name=unit${i}]`);
             reorderInput = form.querySelector(`input[name=reorder${i}]`);
             quantityInput = form.querySelector(`input[name=quantity${i}]`);
-            if (selectComponent 
-                && quantityInput.value 
-                && unitInput.value 
-                && reorderInput.value
-                ) {
-                if ((quantityInput.value < 1 || quantityInput.value === '') && selectComponent) {
-                  alert('Please input positive quantity');
-                }
-                if ((selectComponent && (!quantityInput.value || !unitInput.value || !reorderInput.value))
-                    || (quantityInput.value && (!selectComponent || !unitInput.value || !reorderInput.value))
-                    || (unitInput.value && (!selectComponent || !quantityInput.value || !reorderInput.value))
-                    || (reorderInput.value && (!selectComponent || !unitInput.value || !quantityInput.value))){
-                        alert('All fields must be completed!');
-                    }
-                if (empName && selectComponent && (quantityInput.value >= 1 
-                    || quantityInput.value !== '')) {
-                        axios.put('/api/items/' + selectComponent +'/checkin', 
-                        {
-                            Item: selectComponent,
-                            unit: unitInput.value,
-                            Quantity: quantityInput.value,
-                            Reorder: reorderInput.value,
-                        }
-                    )
 
-                }
-                }
+            if ((quantityInput.value < 1 || quantityInput.value === '') && selectComponent) {
+                alert('Please input positive quantity');
             }
-        );
+            // if ((selectComponent && (!quantityInput.value || !unitInput.value || !reorderInput.value))
+            //     || (quantityInput.value && (!selectComponent || !unitInput.value || !reorderInput.value))
+            //     || (unitInput.value && (!selectComponent || !quantityInput.value || !reorderInput.value))
+            //     || (reorderInput.value && (!selectComponent || !unitInput.value || !quantityInput.value))){
+            //         alert('All fields must be completed!');
+            //     }
+            if (empName && selectComponent && (quantityInput.value >= 1 
+                || quantityInput.value !== '')) {
+                    axios.put('/api/items/' + selectComponent +'/checkin', 
+                    {
+                        Item: selectComponent,
+                        unit: unitInput.value,
+                        Quantity: quantityInput.value,
+                        Reorder: reorderInput.value,
+                    }
+                )
+
+            }
+                
+        });
         clearAll();
     }
 
