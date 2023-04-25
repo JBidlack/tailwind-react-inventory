@@ -100,7 +100,7 @@ app.put('/api/items/:Item/checkout', async (req, res) => {
 app.get('/api/items/:Item', async (req, res) => {
   try {
     const item = req.params.Item;
-    const items = await InvItem.findOne({ item });
+    const items = await InvItem.findOne({ Item: item });
     if (!items) {
       return res.status(404).send({ error: 'Item not found' });
     }
