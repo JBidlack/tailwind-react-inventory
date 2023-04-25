@@ -1,11 +1,7 @@
-
-
-
-
-
 import React, { useEffect, useState } from "react";
 import {Link, Outlet, useNavigate} from 'react-router-dom'
 import { account } from '../appwriteConfig';
+import TabletoPDF from '../body/printInv/print'
 import '../../App.css';
 
 const Header = () => {
@@ -45,15 +41,12 @@ const Header = () => {
                             <Link to="/logged/checkout">
                                 <button className='headerButtons'>Employee Check Out</button>
                             </Link>
-                            <Link to="/logged/tool">
-                                <button className='headerButtons'>Tool Inventory</button>
-                            </Link>
                             <Link to="/logged/checkin">
                                 <button className='headerButtons'>Check-In Inventory</button>
                             </Link>
-                            <Link to="/logged/print">
-                                <button className='headerButtons'>Print Inventory</button>
-                            </Link>
+                            {/* <Link to="/logged/print"> */}
+                                <button className='headerButtons' onClick ={ TabletoPDF.pdf }>Print Inventory</button>
+                            {/* </Link> */}
                             <Link to="/logged/editList">
                                 <button className='headerButtons'>Edit Employee List</button>
                             </Link>
