@@ -52,34 +52,25 @@ app.get('/api/items', async (req, res) => {
       .catch((error) => {
         console.log(error);
       })
-
-    // const database = client.db('Inventory');
-    // const collection = database.collection('InventoryItems');
-    // const items = await collection.find().toArray();
-    // res.send(items);
   } catch (err) {
     console.log(err);
     res.status(500).send({ error: 'Internal server error' });
   } 
 });
 
-// app.get('/api/items/:Item/checkout', async (req, res) => {
-//   try {
-//     const item = req.params.Item;
-//     const quant = req.params.Quantity;
-//     const items = await InvItem.findOneAndUpdate(
-//       { $inc: { Quantity: -quant } } 
-//     );
-//     if (!items) {
-//       return res.status(404).send({ error: 'Item not found' });
-//     }
-//     console.log(items);
-//     res.send(items);
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).send({ error: 'Internal server error' });
-//   }
-// });
+app.get('/api/items/:Item', async (req, res) => {
+  try {
+    const item = req.params.Item;
+    const items = await InvItem.findOne({ item });
+    if (!items) {
+      return res.status(404).send({ error: 'Item not found' });
+    }
+    res.send(items);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ error: 'Internal server error' });
+  }
+});
 
 app.put('/api/items/:Item/checkout', async (req, res) => {
   try {
@@ -102,14 +93,17 @@ app.put('/api/items/:Item/checkout', async (req, res) => {
   }
 });
 
-app.post('/api/items/:Item', async (req, res) => {
+app.post('/api/items/:Item/checkin', async (req, res) => {
   try{
-    const items = await InvItem.findOne({ Item: req.params.Item });
+    const name = req.params.Item;
+    const items = await InvItem.findOne({ Item: name });
     if (!items){
       const newItem = new InvItem({
         _id: new mongodb.ObjectId(),
         Item: req.params.Item,
-        ...req.body,
+        unit: unit,
+        Quantity: parseInt(Quantity),
+        Reorder: parseInt(Reorder),
     });
     const savedItem = await newItem.save();
     res.send(savedItem);

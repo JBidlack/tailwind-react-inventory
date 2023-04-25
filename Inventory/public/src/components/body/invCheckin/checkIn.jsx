@@ -74,69 +74,41 @@ function CheckIn (e) {
         e.preventDefault();
         
         const form = document.querySelector('form');
-        let selectComponent, quantityInput;
+        let selectComponent, quantityInput, unitInput, reorderInput;
 
         const emptyRow = [...Array(rows)].find((_, i) => {
             selectComponent = componentStates[i].inputValue;
             unitInput = form.querySelector(`input[name=unit${i}]`);
             reorderInput = form.querySelector(`input[name=reorder${i}]`);
             quantityInput = form.querySelector(`input[name=quantity${i}]`);
-            if (selectComponent && quantityInput.value) {
-                axios
-   
-
-                  const selectComp = selectComponent
-                  const Qinput = quantityInput.value
-                    result.then(function(response){
-                        if(response.total === 0 && 
-                            (selectComp && Qinput && partIdInput.value 
-                                && unitInput.value && reorderInput.value)){
-                            database.createDocument(
-                                '63f95ccf1463e4b148da', 
-                                '63f95d32f07897fab85e',
-                                uuid(),
-                                {
-                                    'Item': selectComp,
-                                    'Quantity': Qinput,
-
-                                    'unit': unitInput.value,
-                                    'reorder': reorderInput.value,
-
-                                }
-                            )
-                        }
-                        const documentId = response.documents[0].$id
-                        const newQuantity = (parseInt(response.documents[0].Quantity) + parseInt(Qinput))
-
-                        const update = database.updateDocument(
-                            '63f95ccf1463e4b148da', 
-                            '63f95d32f07897fab85e',
-                            documentId,
-                            {
-                                "Quantity": newQuantity,
-                            });
-
-                        update.then(function(response){
-                            setItems(previous => previous.map((item) => {
-                                if (item.Item == selectComp){
-                                    return{...item, Quantity: newQuantity}
-                                }
-                                else {
-                                    return item
-                                }
-                            })             
-                            )
-                        },
-                            function (error){
-                                console.log(error)
-                        })
-                    },
-                    function(error){
-                        console.log(error)
+            if (selectComponent 
+                && quantityInput.value 
+                && unitInput.value 
+                && reorderInput.value
+                ) {
+                if ((quantityInput.value < 1 || quantityInput.value === '') && selectComponent) {
+                  alert('Please input positive quantity');
+                }
+                if ((selectComponent && (!quantityInput.value || !unitInput.value || !reorderInput.value))
+                    || (quantityInput.value && (!selectComponent || !unitInput.value || !reorderInput.value))
+                    || (unitInput.value && (!selectComponent || !quantityInput.value || !reorderInput.value))
+                    || (reorderInput.value && (!selectComponent || !unitInput.value || !quantityInput.value))){
+                        alert('All fields must be completed!');
                     }
-                )
+                if (empName && selectComponent && (quantityInput.value >= 1 
+                    || quantityInput.value !== '')) {
+                        axios.put('/api/items/' + selectComponent +'/checkin', 
+                        {
+                            Item: selectComponent,
+                            unit: unitInput.value,
+                            Quantity: quantityInput.value,
+                            Reorder: reorderInput.value,
+                        }
+                    )
+
+                }
+                }
             }
-        }
         );
         clearAll();
     }
@@ -156,10 +128,10 @@ function CheckIn (e) {
 
 
 
-
     return(
         <div className="w-full flex min-h-[85%] ">
-            <div className='w-1/2 overflow-auto flex flex-col justify-center items-center top-1/4 min-h-full  border-gray-500'>
+            <div className='w-1/2 overflow-y-auto flex flex-col justify-center items-center 
+            top-1/4 min-h-full  border-gray-500 px-5'>
                 <form className='shadow-md shadow-gray-600 shadow-right-xl 
                 rounded-lg p-4 flex flex-col justify-center mt-4 mb-4 bg-white'>
                     <label className='flex justify-center text-xl font-bold mb-4'>
