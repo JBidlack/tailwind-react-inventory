@@ -88,7 +88,7 @@ function Checkout (e) {
         alert('Please input quantity');
       }
       if (empName && selectComponent && (quantityInput.value >= 1 || quantityInput.value !== '')) {
-        axios.put('/api/items/' + selectComponent, {
+        axios.put('/api/items/' + selectComponent + '/checkout', {
           Quantity: parseInt(quantityInput.value)
         })
           .then((response) => {
@@ -189,7 +189,7 @@ function Checkout (e) {
                     </div>
                 </form>
             </div>
-            <div className="w-1/2 overflow-auto flex-row top-1/4">
+            <div className="w-1/2 overflow-auto px-1 flex-row top-1/4">
                 <div className='my-4 mr-4 shadow-md shadow-gray-600 shadow-right-xl 
                 rounded-lg p-4 flex flex-row justify-center mt-4 mb-4 bg-white overflow-y-auto'>
                     <ul className='flex flex-col justify-center list-none w-1/3 bg-white'>
