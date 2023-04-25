@@ -148,9 +148,15 @@ app.put('/api/items/:Item/checkin', async (req, res) => {
     const savedItem = await newItem.save();
     res.send(savedItem);
     } else {
-      items.Quantity += parseInt(req.body.Quantity)
-      const updated = await items.save();
-      res.send(updated);
+      const updated = await InvItem.findOneAndUpdate(
+        { Item: req.params.Item },
+        { $inc: { Quantity: -parseInt(Quantity) } },
+        { new: true }
+      );
+      // items.Quantity += parseInt(req.body.Quantity)
+      // const updated = await items.save();
+      // res.send(updated);
+      res.send(updated)
     }
   } catch (err){
     res.status(500).send({ error: 'Internal server error' });
