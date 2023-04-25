@@ -150,7 +150,7 @@ app.put('/api/items/:Item/checkin', async (req, res) => {
     } else {
       const updated = await InvItem.findOneAndUpdate(
         { Item: req.params.Item },
-        { $inc: { Quantity: -parseInt(Quantity) } },
+        { $inc: { Quantity: parseInt(Quantity) } },
         { new: true }
       );
       // items.Quantity += parseInt(req.body.Quantity)
