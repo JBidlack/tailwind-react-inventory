@@ -101,3 +101,24 @@ app.put('/api/items/:Item/checkout', async (req, res) => {
     res.status(500).send({ error: 'Internal server error' });
   }
 });
+
+app.post('/api/items/:Item', async (req, res) => {
+  try{
+    const items = await InvItem.findOne({ Item: req.params.Item });
+    if (!items){
+      const newItem = new InvItem({
+        _id: new mongodb.ObjectId(),
+        Item: req.params.Item,
+        ...req.body,
+    });
+    const savedItem = await newItem.save();
+    res.send(savedItem);
+    } else {
+      items.Quantity += parseInt(Quantity)
+      const updated = await items.save();
+      res.send(updated);
+    }
+  } catch (err){
+    res.status(500).send({ error: 'Internal server error' });
+  }
+})
