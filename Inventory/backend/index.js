@@ -33,7 +33,7 @@ const schema = mongoose.Schema({
   Reorder: Number,
 });
 
-export const InvItem = mongoose.model('InventoryItems', schema);
+const InvItem = mongoose.model('InventoryItems', schema);
 
 app.listen(port, () => {
   console.log(`Server listening at ${port}`);
