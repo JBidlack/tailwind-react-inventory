@@ -7,19 +7,11 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 
 const app = express();
+const router = express.Router();
 
 app.use(cors());
 app.use(express.json());
 
-// app.get('/api', (req, res) => {
-//   const item = {
-//     _id: String,
-//     Item: String,
-//     unit:String,
-//     Quantity:Number,
-//     Reorder: Number,
-//   }
-// });
 
 const uri = process.env.DATABASE;
 const port = 27017 || 3000;
@@ -41,7 +33,7 @@ const schema = mongoose.Schema({
   Reorder: Number,
 });
 
-const InvItem = mongoose.model('InventoryItems', schema);
+export const InvItem = mongoose.model('InventoryItems', schema);
 
 app.listen(port, () => {
   console.log(`Server listening at ${port}`);
@@ -71,25 +63,25 @@ app.get('/api/items', async (req, res) => {
   } 
 });
 
-app.get('/api/items/:Item', async (req, res) => {
-  try {
-    const item = req.params.Item;
-    const quant = req.params.Quantity;
-    const items = await InvItem.findOneAndUpdate(
-      { $inc: { Quantity: -quant } } 
-    );
-    if (!items) {
-      return res.status(404).send({ error: 'Item not found' });
-    }
-    console.log(items);
-    res.send(items);
-  } catch (err) {
-    console.log(err);
-    res.status(500).send({ error: 'Internal server error' });
-  }
-});
+// app.get('/api/items/:Item/checkout', async (req, res) => {
+//   try {
+//     const item = req.params.Item;
+//     const quant = req.params.Quantity;
+//     const items = await InvItem.findOneAndUpdate(
+//       { $inc: { Quantity: -quant } } 
+//     );
+//     if (!items) {
+//       return res.status(404).send({ error: 'Item not found' });
+//     }
+//     console.log(items);
+//     res.send(items);
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).send({ error: 'Internal server error' });
+//   }
+// });
 
-app.put('/api/items/:Item', async (req, res) => {
+app.put('/api/items/:Item/checkout', async (req, res) => {
   try {
     const { Quantity } = req.body;
     if (isNaN(+Quantity)) {
