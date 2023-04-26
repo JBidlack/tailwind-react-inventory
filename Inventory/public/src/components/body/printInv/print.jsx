@@ -20,28 +20,22 @@ const TabletoPDF = () => {
         const doc = new jsPDF();
         
         const headers = [[
-            "_id",
-            "Item",
-            "Unit",
-            "Quantity",
-            "ReOrder Qty."
+            {content: 'ID', styles: {fillColor: '#FACC15', textColor: '#000000'}},
+            {content: 'Item', styles: {fillColor: '#FACC15', textColor: '#000000'}},
+            {content: 'Unit', styles: {fillColor: '#FACC15', textColor: '#000000'}},
+            {content: 'Quantity', styles: {fillColor: '#FACC15', textColor: '#000000'}},
+            {content: 'ReOrder Qty.', styles: {fillColor: '#FACC15', textColor: '#000000'}}
         ]];
         
         const tableRows = tableData.map((row) => [
             row._id, row.Item, row.unit, row.Quantity, row.Reorder
         ]);
 
-        const styles = {
-            headerRow: {
-                fillColor: doc.setFillColor('#FACC15')
-                
-            }
-        };
-
         doc.autoTable({
             head: headers,
             body: tableRows,
-            styles: styles
+            headStyles: {fillColor: '#FACC15'},
+
         });
         
 
@@ -55,14 +49,14 @@ return (
             <button onClick={generatePDF} className='headerButtons m-4'>Download PDF</button>
         </div>
         <div className='flex justify-center mt-4'>
-            <table className = 'table-auto border-collapse w-1/2 overflow-scroll'>
+            <table className = 'table-auto shadow-lg border-collapse w-1/2 overflow-scroll'>
             <thead>
             <tr className='bg-gray-100 border hover:bg-gray-200'>
-                <th className='px-4 py-2'>ID</th>
-                <th className='px-4 py-2'>Item</th>
-                <th className='px-4 py-2'>Unit</th>
-                <th className='px-4 py-2'>Quantity</th>
-                <th className='px-4 py-2'>ReOrder Qty.</th>
+                <th className='px-4 py-2 bg-yellow-400'>ID</th>
+                <th className='px-4 py-2 bg-yellow-400'>Item</th>
+                <th className='px-4 py-2 bg-yellow-400'>Unit</th>
+                <th className='px-4 py-2 bg-yellow-400'>Quantity</th>
+                <th className='px-4 py-2 bg-yellow-400'>ReOrder Qty.</th>
             </tr>
             </thead>
             <tbody>

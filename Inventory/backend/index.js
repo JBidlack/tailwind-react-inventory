@@ -108,6 +108,11 @@ app.put('/api/items/:Item/checkout', async (req, res) => {
       { $inc: { Quantity: -parseInt(Quantity) } },
       { new: true }
     );
+
+    if (items.Quantity <= items.Reorder){
+      sendEmail(items.Item);
+    }
+    
     if (!items) {
       return res.status(404).send({ error: 'Item not found' });
     }
