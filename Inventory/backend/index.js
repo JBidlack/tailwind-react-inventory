@@ -167,7 +167,7 @@ const sendEmail = (item) => {
     text: `Our records indicate that ${item} is running low. Please be sure to order more as soon as possible.`
   }
 
-  mailer.sendEmail(mailOpt, (error, info) => {
+  mailer.sendMail(mailOpt, (error, info) => {
     if (error){
       alert(error);
     }
