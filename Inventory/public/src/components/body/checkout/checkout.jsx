@@ -47,7 +47,6 @@ function Checkout (e) {
           });
     }, []);
 
-
   const clearAll = (e) => {
     const form = document.querySelector('form');
     let Input;
@@ -106,7 +105,6 @@ function Checkout (e) {
           });
       }
     });
-
     clearAll();
   }
 
@@ -129,14 +127,13 @@ function Checkout (e) {
                 <form className='shadow-md shadow-gray-600 shadow-right-xl 
                 rounded-lg p-4 flex flex-col justify-center mt-4 mb-4 bg-white'>
                     <label className='flex justify-center text-xl font-bold mb-4'>
-                                Check-Out Inventory</label>
+                      Check-Out Inventory</label>
                     <div className='flex flex-row justify-center my-4'>
-                        <label className="block text-gray-700 mb-2 pr-2" 
-                        htmlFor="employee-name"> Employee Name:</label>
-                        <input id="employee-name" className='border border-gray-400 
-                        rounded-md max-h-6 py-2 px-4 mb-4' type='text' name='employeeName' required 
-                        />
-                        
+                      <label className="block text-gray-700 mb-2 pr-2" 
+                      htmlFor="employee-name"> Employee Name:</label>
+                      <input id="employee-name" className='border border-gray-400 
+                      rounded-md max-h-6 py-2 px-4 mb-4' type='text' name='employeeName' required 
+                      />  
                     </div>
                     {!empName && <div className='flex justify-center text-base text-red-600
                 font-extrabold pb-4'>Please add a name to receive this order. </div>}
@@ -164,7 +161,7 @@ function Checkout (e) {
 
                                   </td>
                                   <td>
-                                    <input type='number' name={`quantity${i}`} className='max-w-1/3 overflow-hidden text-ellipsis border
+                                    <input type='number' name={`quantity${i}`} className='w-full overflow-hidden text-ellipsis border
                                     border-gray-400 rounded-md mb-2' min="1" required />
                                   </td>
                                 </tr>

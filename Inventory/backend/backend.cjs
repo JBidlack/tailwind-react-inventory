@@ -13,11 +13,6 @@ router.get('/api/items', async (req, res) => {
         .catch((error) => {
           console.log(error);
         })
-  
-      // const database = client.db('Inventory');
-      // const collection = database.collection('InventoryItems');
-      // const items = await collection.find().toArray();
-      // res.send(items);
     } catch (err) {
       console.log(err);
       res.status(500).send({ error: 'Internal server error' });

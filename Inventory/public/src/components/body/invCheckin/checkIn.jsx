@@ -3,16 +3,11 @@ import SelectComponent from '../checkout/dropdown';
 import '../../../App.css';
 import axios from 'axios';
 
-
-
-
 function CheckIn (e) {
 
     const [empName, setEmpName] = useState(true);
-
     const [items, setItems] = useState([]);
     const [loader, setLoader] = useState(false);
-
     const [rows, setRows] = useState(7);
     const [componentStates, setComponentStates] = useState(
         [...Array(rows)].map(() => ({
@@ -94,12 +89,7 @@ function CheckIn (e) {
             if ((quantityInput.value < 1 || quantityInput.value === '') && selectComponent) {
                 alert('Please input positive quantity');
             }
-            // if ((selectComponent && (!quantityInput.value || !unitInput.value || !reorderInput.value))
-            //     || (quantityInput.value && (!selectComponent || !unitInput.value || !reorderInput.value))
-            //     || (unitInput.value && (!selectComponent || !quantityInput.value || !reorderInput.value))
-            //     || (reorderInput.value && (!selectComponent || !unitInput.value || !quantityInput.value))){
-            //         alert('All fields must be completed!');
-            //     }
+
             if (empName && selectComponent && (quantityInput.value >= 1 
                 || quantityInput.value !== '')) {
                     axios.put('/api/items/' + selectComponent +'/checkin', 
@@ -130,8 +120,6 @@ function CheckIn (e) {
           });
     };
 
-
-
     return(
         <div className="w-full flex min-h-[85%] ">
             <div className='w-1/2 overflow-y-auto flex flex-col justify-center items-center 
@@ -141,10 +129,10 @@ function CheckIn (e) {
                     <label className='flex justify-center text-xl font-bold mb-4'>
                                 Check-In Inventory</label>
                     <div className='flex flex-row justify-center my-4'>
-                        <label className="block text-gray-700 mb-2 pr-2" 
+                        <label className="block text-center text-gray-700 mb-2 pr-2 w-1/2" 
                         htmlFor="employee-name"> Employee Name:</label>
                         <input id="employee-name" className='border border-gray-400 
-                        rounded-md max-h-6 py-2 px-4 mb-4' type='text' name='employeeName' required 
+                        rounded-md max-h-6 py-2 px-4 mb-4 w-auto' type='text' name='employeeName' required 
                         />
                     </div>
                     <table className='max-w-full'>
@@ -173,15 +161,15 @@ function CheckIn (e) {
 
                                     </td>
                                     <td>
-                                        <input type='number' name={`reorder${i}`} className='max-w-1/3 overflow-hidden text-ellipsis border
+                                        <input type='number' name={`reorder${i}`} className='w-full overflow-hidden text-ellipsis border
                                         border-gray-400 rounded-md mb-2' />
                                     </td>
                                     <td>
-                                        <input type='text' name={`unit${i}`} className='max-w-1/3 overflow-hidden text-ellipsis border
+                                        <input type='text' name={`unit${i}`} className='w-full overflow-hidden text-ellipsis border
                                         border-gray-400 rounded-md mb-2' />
                                     </td>
                                     <td>
-                                        <input type='number' name={`quantity${i}`} className='max-w-1/3 overflow-hidden text-ellipsis border
+                                        <input type='number' name={`quantity${i}`} className='w-full overflow-hidden text-ellipsis border
                                         border-gray-400 rounded-md mb-2' min="1" required />
                                     </td>
                                 </tr>
@@ -211,42 +199,42 @@ function CheckIn (e) {
                 rounded-lg p-4 flex flex-row justify-center mt-4 mb-4 bg-white overflow-y-auto'>
                     <ul className='flex flex-col justify-center list-none w-1/3 bg-white'>
                         <li className='flex flex-col justify-center font-bold pb-4 text-center'>Items</li> 
-                            {items &&
-                            items.map((item, index) => (
-                                <li key={`${item.Item}_${index}`} className='flex justify-center border-b 
-                                border-gray-800 mb-2 bg-white' id = 'part-id'> 
-                                    {item.Item}
-                                </li>
-                            ))}
+                        {items &&
+                        items.map((item, index) => (
+                            <li key={`${item.Item}_${index}`} className='flex justify-center border-b 
+                            border-gray-800 mb-2 bg-white' id = 'part-id'> 
+                                {item.Item}
+                            </li>
+                        ))}
                     </ul>
                     <ul className='flex flex-col justify-center list-none w-1/3 bg-white'>
                         <li className='flex flex-col justify-center font-bold pb-4 text-center'>Unit</li>   
                             {items &&
                             items.map((item, index) => (
-                                    <li key={`${item.unit}_${index}`} className='flex justify-center border-b 
-                                    border-gray-800 mb-2 bg-white'> 
-                                        {item.unit}
-                                    </li>
+                                <li key={`${item.unit}_${index}`} className='flex justify-center border-b 
+                                border-gray-800 mb-2 bg-white'> 
+                                    {item.unit}
+                                </li>
                             ))}
                     </ul>
                     <ul className='flex flex-col justify-center list-none w-1/3 bg-white'>
                         <li className='flex flex-col justify-center font-bold pb-4 text-center'>Quantity</li> 
                             {items &&
                             items.map((item, index) => (
-                                    <li key={`${item.Quantity}_${index}`} className='flex justify-center border-b 
-                                    border-gray-800 mb-2 bg-white'> 
-                                        {item.Quantity}
-                                    </li>
+                                <li key={`${item.Quantity}_${index}`} className='flex justify-center border-b 
+                                border-gray-800 mb-2 bg-white'> 
+                                    {item.Quantity}
+                                </li>
                             ))}
                     </ul>
                     <ul className='flex flex-col justify-center list-none w-1/3 bg-white'>
                         <li className='flex flex-col justify-center font-bold pb-4 text-center'>Re-Order At</li>   
                             {items &&
                             items.map((item, index) => (
-                                    <li key={`${item.Reorder}_${index}`} className='flex justify-center border-b 
-                                    border-gray-800 mb-2 bg-white'> 
-                                        {item.Reorder}
-                                    </li>
+                                <li key={`${item.Reorder}_${index}`} className='flex justify-center border-b 
+                                border-gray-800 mb-2 bg-white'> 
+                                    {item.Reorder}
+                                </li>
                             ))}
                     </ul>
                 </div>

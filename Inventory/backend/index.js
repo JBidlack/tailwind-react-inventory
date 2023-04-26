@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const  { MongoClient } = require('mongodb');
 const mongodb = require('mongodb');
 const mongoose = require('mongoose');
+const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 const app = express();
@@ -12,7 +13,9 @@ const router = express.Router();
 app.use(cors());
 app.use(express.json());
 
-
+const email = process.env.EMAIL;
+const emailto = process.env.EMAILRECIP;
+const pass = process.env.PASSWORD;
 const uri = process.env.DATABASE;
 const port = 27017 || 3000;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -40,10 +43,8 @@ app.listen(port, () => {
 });
 
 //Routes
-
 app.get('/api/items', async (req, res) => {
   try {
-
     InvItem.find({ })
       .then((data) => {
         console.log("Data: ", data);
@@ -58,24 +59,6 @@ app.get('/api/items', async (req, res) => {
   } 
 });
 
-// app.get('/api/items/:Item/checkout', async (req, res) => {
-//   try {
-//     const item = req.params.Item;
-//     const quant = req.params.Quantity;
-//     const items = await InvItem.findOneAndUpdate(
-//       { $inc: { Quantity: -quant } } 
-//     );
-//     if (!items) {
-//       return res.status(404).send({ error: 'Item not found' });
-//     }
-//     console.log(items);
-//     res.send(items);
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).send({ error: 'Internal server error' });
-//   }
-// });
-
 app.put('/api/items/:Item/checkout', async (req, res) => {
   try {
     const { Quantity } = req.body;
@@ -87,6 +70,9 @@ app.put('/api/items/:Item/checkout', async (req, res) => {
       { $inc: { Quantity: -parseInt(Quantity) } },
       { new: true }
     );
+    if (items.Quantity <= items.Reorder) {
+      sendEmail(items.Item);
+    }
     if (!items) {
       return res.status(404).send({ error: 'Item not found' });
     }
@@ -153,14 +139,37 @@ app.put('/api/items/:Item/checkin', async (req, res) => {
         { $inc: { Quantity: parseInt(Quantity) } },
         { new: true }
       );
-      // items.Quantity += parseInt(req.body.Quantity)
-      // const updated = await items.save();
-      // res.send(updated);
       res.send(updated)
     }
   } catch (err){
     res.status(500).send({ error: 'Internal server error' });
   }
 });
+
+const mailer = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: email,
+    password: pass
+  }
+});
+
+const sendEmail = (item) => {
+  const mailOpt = {
+    from: email,
+    to: emailto,
+    subject: `Your ${item} is running low!`,
+    text: `Our records indicate that ${item} is running low. Please be sure to order more as soon as possible.`
+  }
+
+  mailer.sendEmail(mailOpt, (error, info) => {
+    if (error){
+      alert(error);
+    }
+    else {
+      alert(`${item} is running low. An email has been sent to the department supervisor.`);
+    }
+  })
+}
 
 
