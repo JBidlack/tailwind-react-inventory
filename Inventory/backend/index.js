@@ -97,31 +97,31 @@ app.get('/api/items/:Item', async (req, res) => {
   }
 });
 
-app.put('/api/items/:Item/checkout', async (req, res) => {
-  try {
-    const { Quantity } = req.body;
-    if (isNaN(+Quantity)) {
-      return res.status(404).send({ error: 'Quantity must be a number' });
-    }
-    const items = await InvItem.findOneAndUpdate(
-      { Item: req.params.Item },
-      { $inc: { Quantity: -parseInt(Quantity) } },
-      { new: true }
-    );
+// app.put('/api/items/:Item/checkout', async (req, res) => {
+//   try {
+//     const { Quantity } = req.body;
+//     if (isNaN(+Quantity)) {
+//       return res.status(404).send({ error: 'Quantity must be a number' });
+//     }
+//     const items = await InvItem.findOneAndUpdate(
+//       { Item: req.params.Item },
+//       { $inc: { Quantity: -parseInt(Quantity) } },
+//       { new: true }
+//     );
 
-    if (req.params.Quantity <= req.params.Reorder){
-      sendEmail(req.params.Item);
-    }
+//     if (req.params.Quantity <= req.params.Reorder){
+//       sendEmail(req.params.Item);
+//     }
 
-    if (!items) {
-      return res.status(404).send({ error: 'Item not found' });
-    }
-    res.send(items);
-  } catch (err) {
-    console.log(err);
-    res.status(500).send({ error: 'Internal server error' });
-  }
-});
+//     if (!items) {
+//       return res.status(404).send({ error: 'Item not found' });
+//     }
+//     res.send(items);
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).send({ error: 'Internal server error' });
+//   }
+// });
 
 app.put('/api/items/:Item/checkin', async (req, res) => {
   try{
