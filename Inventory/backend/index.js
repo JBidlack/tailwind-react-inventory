@@ -169,10 +169,10 @@ const sendEmail = (item) => {
 
   mailer.sendMail(mailOpt, (error, info) => {
     if (error){
-      alert(error);
+      console.log(error);
     }
     else {
-      alert(`${item} is running low. An email has been sent to the department supervisor.`);
+      console.log(`${item} is running low. An email has been sent to the department supervisor.`);
     }
   })
 }
