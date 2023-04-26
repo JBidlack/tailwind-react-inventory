@@ -70,7 +70,7 @@ app.put('/api/items/:Item/checkout', async (req, res) => {
       { $inc: { Quantity: -parseInt(Quantity) } },
       { new: true }
     );
-    if (items.Quantity <= items.Reorder) {
+    if (parseInt(items.Quantity) <= parseInt(items.Reorder)) {
       sendEmail(items.Item);
     }
     if (!items) {
