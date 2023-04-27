@@ -172,7 +172,7 @@ app.put('/api/items/:Item/checkin', async (req, res) => {
 
 app.get('/api/employees', async (req, res) => {
   try {
-    InvItem.find({ })
+    empSchema.find({ })
       .then((data) => {
         console.log("Data: ", data);
         res.send(data);
