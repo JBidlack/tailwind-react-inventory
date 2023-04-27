@@ -18,7 +18,7 @@ const pass = process.env.PASSWORD;
 const uri = process.env.DATABASE;
 const empList = process.env.EMPDB;
 const port = 27017 || 3000;
-const client = new MongoClient(empList, { useNewUrlParser: true, useUnifiedTopology: true });
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 
 mongoose.connect(uri || 'mongodb://localhost/Inventory');
@@ -54,7 +54,7 @@ const empSchema = mongoose.Schema({
 
 const InvItem = mongoose.model('InventoryItems', invSchema);
 
-const EList = mongoose.model('Employee', empSchema);
+const EList = mongoose.model('Employees', empSchema);
 
 app.listen(port, () => {
   console.log(`Server listening at ${port}`);
