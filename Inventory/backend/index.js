@@ -26,7 +26,7 @@ const employeeList = mongoose.createConnection(empList);
 
 
 //verifies mongodb connection was successful
-inventory.on('connected', () => {
+invDB.on('connected', () => {
   console.log("We have liftoff!");
 });
 
