@@ -170,6 +170,22 @@ app.put('/api/items/:Item/checkin', async (req, res) => {
   }
 });
 
+app.get('/api/employees', async (req, res) => {
+  try {
+    InvItem.find({ })
+      .then((data) => {
+        console.log("Data: ", data);
+        res.send(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ error: 'Internal server error' });
+  } 
+});
+
 const mailer = nodemailer.createTransport({
   service: 'hotmail',
   auth: {
