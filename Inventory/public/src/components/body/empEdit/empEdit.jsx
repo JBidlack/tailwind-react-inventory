@@ -25,7 +25,7 @@ const Employees = () => {
                 console.log(error);
                 setLoader(false);
             });
-      }, []);
+      }, [employee]);
 
     return(
       <div className="w-full flex flex-col min-h-[85%]">
