@@ -57,7 +57,7 @@ const Employees = () => {
                 <li className='flex flex-col justify-center font-bold pb-4 text-center'></li> 
                 {employee &&
                 employee.map((name, index) => (
-                    <li key={`delete_${index}`} className='flex justify-center border-b 
+                    <li key={`${name._id}_${index}`} className='flex justify-center border-b 
                     border-gray-800 mb-2 bg-white'> 
                         <button>Delete</button>
                     </li>
