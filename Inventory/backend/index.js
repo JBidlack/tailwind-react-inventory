@@ -70,13 +70,15 @@ app.put('/api/items/:Item/checkout', async (req, res) => {
       { $inc: { Quantity: -parseInt(Quantity) } },
       { new: true }
     );
-    if (parseInt(items.Quantity) <= parseInt(items.Reorder)) {
-      sendEmail(items.Item);
-    }
+
     if (!items) {
       return res.status(404).send({ error: 'Item not found' });
     }
     res.send(items);
+    
+    if (parseInt(items.Quantity) <= parseInt(items.Reorder)) {
+      sendEmail(items.Item);
+    }
   } catch (err) {
     console.log(err);
     res.status(500).send({ error: 'Internal server error' });
