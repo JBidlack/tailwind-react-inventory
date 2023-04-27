@@ -75,7 +75,7 @@ app.put('/api/items/:Item/checkout', async (req, res) => {
       return res.status(404).send({ error: 'Item not found' });
     }
     res.send(items);
-    
+
     if (parseInt(items.Quantity) <= parseInt(items.Reorder)) {
       sendEmail(items.Item);
     }
@@ -157,7 +157,7 @@ const mailer = nodemailer.createTransport({
   service: 'hotmail',
   auth: {
     user: email,
-    password: pass
+    pass: pass
   }
 });
 
