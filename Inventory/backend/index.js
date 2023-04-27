@@ -18,7 +18,8 @@ const pass = process.env.PASSWORD;
 const uri = process.env.DATABASE;
 const empList = process.env.EMPDB;
 const port = 27017 || 3000;
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+const client = new MongoClient(empList, { useNewUrlParser: true, useUnifiedTopology: true });
+
 
 mongoose.connect(uri || 'mongodb://localhost/Inventory');
 const inventory = mongoose.connection;
