@@ -8,7 +8,6 @@ const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 const app = express();
-const router = express.Router();
 
 app.use(cors());
 app.use(express.json());
@@ -17,18 +16,28 @@ const email = process.env.EMAIL;
 const emailto = process.env.EMAILRECIP;
 const pass = process.env.PASSWORD;
 const uri = process.env.DATABASE;
+const empList = process.env.EMPDB;
 const port = 27017 || 3000;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 mongoose.connect(uri || 'mongodb://localhost/Inventory');
+const inventory = mongoose.connection;
+
+const employeeList = mongoose.createConnection(empList);
+
 
 //verifies mongodb connection was successful
-mongoose.connection.on('connected', () => {
+inventory.on('connected', () => {
   console.log("We have liftoff!");
 });
 
+//verifies mongodb connection was successful
+employeeList.on('connected', () => {
+  console.log("We have liftoff employee list!");
+});
+
 // schema
-const schema = mongoose.Schema({
+const invSchema = mongoose.Schema({
   _id: String,
   Item: String,
   unit:String,
@@ -36,7 +45,15 @@ const schema = mongoose.Schema({
   Reorder: Number,
 });
 
-const InvItem = mongoose.model('InventoryItems', schema);
+const empSchema = mongoose.Schema({
+  _id: String,
+  Name: String,
+  Dept: String,
+})
+
+const InvItem = mongoose.model('InventoryItems', invSchema);
+
+const EList = mongoose.model('Employee', empSchema);
 
 app.listen(port, () => {
   console.log(`Server listening at ${port}`);

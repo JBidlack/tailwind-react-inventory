@@ -6,6 +6,7 @@ import Checkin from './components/body/invCheckin/checkIn';
 import LogIn from './components/login/login'
 import SignUp from './components/signup/signup'
 import TabletoPDF from './components/body/printInv/print'
+import Employees from './components/body/empEdit/empEdit'
 import axios from 'axios';
 import './App.css';
 
@@ -24,6 +25,7 @@ function App() {
             <Route path='checkout' element={<Checkout />} />
             <Route path='checkin' element={<Checkin />} />
             <Route path='print' element={<TabletoPDF />} />
+            <Route path='editList' element={<Employees />}/>
           </Route>
         </Routes>
     </Router>
