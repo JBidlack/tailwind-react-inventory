@@ -8,7 +8,6 @@ const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 const app = express();
-const router = express.Router();
 
 app.use(cors());
 app.use(express.json());
@@ -17,18 +16,29 @@ const email = process.env.EMAIL;
 const emailto = process.env.EMAILRECIP;
 const pass = process.env.PASSWORD;
 const uri = process.env.DATABASE;
+const empList = process.env.EMPDB;
 const port = 27017 || 3000;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
+
 mongoose.connect(uri || 'mongodb://localhost/Inventory');
+const inventory = mongoose.connection;
+
+const employeeList = mongoose.createConnection(empList);
+
 
 //verifies mongodb connection was successful
-mongoose.connection.on('connected', () => {
+inventory.on('connected', () => {
   console.log("We have liftoff!");
 });
 
+//verifies mongodb connection was successful
+employeeList.on('connected', () => {
+  console.log("We have liftoff employee list!");
+});
+
 // schema
-const schema = mongoose.Schema({
+const invSchema = mongoose.Schema({
   _id: String,
   Item: String,
   unit:String,
@@ -36,7 +46,15 @@ const schema = mongoose.Schema({
   Reorder: Number,
 });
 
-const InvItem = mongoose.model('InventoryItems', schema);
+const empSchema = mongoose.Schema({
+  _id: String,
+  Name: String,
+  Dept: String,
+})
+
+const InvItem = mongoose.model('InventoryItems', invSchema);
+
+const EList = mongoose.model('Employees', empSchema);
 
 app.listen(port, () => {
   console.log(`Server listening at ${port}`);
@@ -99,31 +117,6 @@ app.get('/api/items/:Item', async (req, res) => {
   }
 });
 
-// app.put('/api/items/:Item/checkout', async (req, res) => {
-//   try {
-//     const { Quantity } = req.body;
-//     if (isNaN(+Quantity)) {
-//       return res.status(404).send({ error: 'Quantity must be a number' });
-//     }
-//     const items = await InvItem.findOneAndUpdate(
-//       { Item: req.params.Item },
-//       { $inc: { Quantity: -parseInt(Quantity) } },
-//       { new: true }
-//     );
-
-//     if (req.params.Quantity <= req.params.Reorder){
-//       sendEmail(req.params.Item);
-//     }
-
-//     if (!items) {
-//       return res.status(404).send({ error: 'Item not found' });
-//     }
-//     res.send(items);
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).send({ error: 'Internal server error' });
-//   }
-// });
 
 app.put('/api/items/:Item/checkin', async (req, res) => {
   try{
@@ -151,6 +144,22 @@ app.put('/api/items/:Item/checkin', async (req, res) => {
   } catch (err){
     res.status(500).send({ error: 'Internal server error' });
   }
+});
+
+app.get('/api/employees', async (req, res) => {
+  try {
+    EList.find({ })
+      .then((emps) => {
+        console.log("Data: ", emps);
+        res.send(emps);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ error: 'Internal server error' });
+  } 
 });
 
 const mailer = nodemailer.createTransport({
