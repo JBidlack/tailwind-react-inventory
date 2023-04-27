@@ -45,7 +45,7 @@ function CheckIn (e) {
           console.log(error);
           setLoader(false);
           });
-    }, []);
+    }, [items]);
 
 
     const clearAll = (e) => {
@@ -240,7 +240,7 @@ function CheckIn (e) {
                 </div>
             </div>
         </div>
-        );
+    );
 };
 
 export default CheckIn;

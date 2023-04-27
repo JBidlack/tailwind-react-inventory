@@ -45,7 +45,7 @@ function Checkout (e) {
           console.log(error);
           setLoader(false);
           });
-    }, []);
+    }, [items]);
 
   const clearAll = (e) => {
     const form = document.querySelector('form');
