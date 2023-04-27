@@ -152,7 +152,7 @@ app.put('/api/items/:Item/checkin', async (req, res) => {
 });
 
 const mailer = nodemailer.createTransport({
-  service: 'gmail',
+  service: 'hotmail',
   auth: {
     user: email,
     password: pass
