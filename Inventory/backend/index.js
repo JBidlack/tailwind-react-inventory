@@ -173,9 +173,9 @@ app.put('/api/items/:Item/checkin', async (req, res) => {
 app.get('/api/employees', async (req, res) => {
   try {
     EList.find({ })
-      .then((data) => {
-        console.log("Data: ", data);
-        res.send(data);
+      .then((emps) => {
+        console.log("Data: ", emps);
+        res.send(emps);
       })
       .catch((error) => {
         console.log(error);
