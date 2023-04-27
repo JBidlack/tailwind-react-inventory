@@ -21,9 +21,7 @@ const port = 27017 || 3000;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 
-mongoose.connect(uri || 'mongodb://localhost/Inventory');
-const inventory = mongoose.connection;
-
+const invDB = mongoose.createConnection(uri);
 const employeeList = mongoose.createConnection(empList);
 
 
@@ -52,9 +50,9 @@ const empSchema = mongoose.Schema({
   Dept: String,
 })
 
-const InvItem = mongoose.model('InventoryItems', invSchema);
+const InvItem = invDB.model('InventoryItems', invSchema);
 
-const EList = mongoose.model('Employees', empSchema);
+const EList = employeeList.model('Employees', empSchema);
 
 app.listen(port, () => {
   console.log(`Server listening at ${port}`);
@@ -65,7 +63,6 @@ app.get('/api/items', async (req, res) => {
   try {
     InvItem.find({ })
       .then((data) => {
-        console.log("Data: ", data);
         res.send(data);
       })
       .catch((error) => {
