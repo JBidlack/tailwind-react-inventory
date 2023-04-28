@@ -27,9 +27,11 @@ const Employees = () => {
             });
       }, [employee]);
 
-      const deleteEmp = (name) => {
-        axios.delete(`/api/employees/?Name=${name}`)
-      }
+      const deleteEmp = (index) => {
+        const indv = employee[index]._id;
+        console.log(indv +"  " + index);
+        axios.delete(`/api/employees/` + indv);
+      };
 
     return(
         <div>
@@ -62,12 +64,12 @@ const Employees = () => {
                 <ul className='flex flex-col justify-center list-none w-1/3 bg-white'>
                     <li className='flex flex-col justify-center font-bold pb-4 text-center'>Remove/Edit</li> 
                     {employee &&
-                    employee.map((name) => (
+                    employee.map((name, index) => (
                         <li key={`${name._id}`} className='flex justify-center border-b 
                         border-gray-800 mb-2 bg-white'> 
                             <button className='bg-yellow-400 rounded-md px-2 m-2 '>Edit</button>
                             <button className='bg-red-500 rounded-md px-2 m-2'
-                            onClick={() => deleteEmp(name.Name)}>Delete</button>
+                            onClick={() => deleteEmp(index)}>Delete</button>
                         </li>
                     ))}
                 </ul>
