@@ -163,8 +163,8 @@ app.get('/api/employees', async (req, res) => {
 
 app.delete('/api/employees/:_id', async (req, res) => {
   try {
-    const name = req.query.Name;
-    const result = await EList.deleteOne({ Name: name })
+    const name = req.params._id;
+    const result = await EList.deleteOne({ _id: name })
       .then((emps) => {
         console.log("Data: ", emps);
         res.send(result);
