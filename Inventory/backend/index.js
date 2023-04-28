@@ -147,7 +147,7 @@ app.put('/api/items/:Item/checkin', async (req, res) => {
 
 app.get('/api/employees', async (req, res) => {
   try {
-    EList.find({ }).remove()
+    EList.find({ })
       .then((emps) => {
         console.log("Data: ", emps);
         res.send(emps);
