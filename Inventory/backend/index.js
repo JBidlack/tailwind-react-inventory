@@ -48,6 +48,8 @@ const empSchema = mongoose.Schema({
   _id: String,
   Name: String,
   Dept: String,
+  Email: String,
+  Admin: Boolean
 })
 
 const InvItem = invDB.model('InventoryItems', invSchema);
@@ -145,10 +147,27 @@ app.put('/api/items/:Item/checkin', async (req, res) => {
 
 app.get('/api/employees', async (req, res) => {
   try {
-    EList.find({ })
+    EList.find({ }).remove()
       .then((emps) => {
         console.log("Data: ", emps);
         res.send(emps);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ error: 'Internal server error' });
+  } 
+});
+
+app.get('/api/employees/:Name', async (req, res) => {
+  try {
+    const name = req.query.Name;
+    const result = await EList.deleteOne({ Name: name })
+      .then((emps) => {
+        console.log("Data: ", emps);
+        res.send(result);
       })
       .catch((error) => {
         console.log(error);
