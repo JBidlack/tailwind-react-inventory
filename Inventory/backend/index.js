@@ -161,7 +161,7 @@ app.get('/api/employees', async (req, res) => {
   } 
 });
 
-app.get('/api/employees/:Name', async (req, res) => {
+app.delete('/api/employees/:Name', async (req, res) => {
   try {
     const name = req.query.Name;
     const result = await EList.deleteOne({ Name: name })
