@@ -161,6 +161,20 @@ app.get('/api/employees', async (req, res) => {
   } 
 });
 
+app.get('/api/employees/:_id', async (req, res) => {
+  try {
+    const id = req.params._id;
+    const empId = await EList.findOne({ Id: item });
+    if (!empId) {
+      return res.status(404).send({ error: 'Employee not found' });
+    }
+    res.send(empId);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ error: 'Internal server error' });
+  }
+});
+
 app.delete('/api/employees/:_id', async (req, res) => {
     EList.findByIdAndDelete({id: req.params._id}).then((emp) => {
     res.send({data: true});
