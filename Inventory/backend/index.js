@@ -163,15 +163,9 @@ app.get('/api/employees', async (req, res) => {
 
 app.delete('/api/employees/:_id', async (req, res) => {
   try {
-    const name = req.params._id;
-    const result = await EList.deleteOne({ _id: name })
-      .then((emps) => {
-        console.log("Data: ", emps);
-        res.send(result);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
+    const emp = await EList.findById(req.params._id);
+    await emp.remove();
+    res.send({data: true});
   } catch (err) {
     console.log(err);
     res.status(500).send({ error: 'Internal server error' });
