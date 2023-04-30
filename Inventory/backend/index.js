@@ -176,7 +176,7 @@ app.get('/api/employees/:_id', async (req, res) => {
 });
 
 app.delete('/api/employees/:_id', async (req, res) => {
-    EList.findByIdAndDelete({id: req.params._id}).then((emp) => {
+    EList.findByIdAndDelete({_id: req.params._id}).then((emp) => {
     res.send({data: true});
   }).catch ((err) =>{
     console.log(err);
