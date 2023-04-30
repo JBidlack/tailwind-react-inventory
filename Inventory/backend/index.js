@@ -162,15 +162,13 @@ app.get('/api/employees', async (req, res) => {
 });
 
 app.delete('/api/employees/:_id', async (req, res) => {
-  try {
-    const emp = await EList.findById(req.params._id);
-    await emp.remove();
+    EList.findByIdAndDelete({id: req.params._id}).then((emp) => {
     res.send({data: true});
-  } catch (err) {
+  }).catch ((err) =>{
     console.log(err);
     res.status(500).send({ error: 'Internal server error' });
   } 
-});
+)});
 
 const mailer = nodemailer.createTransport({
   service: 'hotmail',
