@@ -56,7 +56,7 @@ const Employees = () => {
                             <td className='flex justify-center w-1/3 mx-10 p-2'> 
                                 <button className='bg-yellow-400 font-semibold rounded-md mx-2 px-4'>Edit</button>
                                 <button className='bg-red-500 font-semibold rounded-md mx-2 px-4'
-                                onClick={() => deleteEmp(employee[index])}>Delete</button>
+                                onClick={() => deleteEmp(emp)}>Delete</button>
                             </td>
                         </tr>
                             
