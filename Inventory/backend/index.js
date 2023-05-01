@@ -170,6 +170,7 @@ app.get('/api/employees/:_id', async (req, res) => {
     }
     res.send(empId);
   } catch (err) {
+    console.log(empId)
     console.log(err);
     res.status(500).send({ error: 'Internal server error' });
   }
