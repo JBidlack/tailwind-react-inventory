@@ -164,7 +164,7 @@ app.get('/api/employees/:_id', async (req, res) => {
   try {
     const id = req.params._id;
     const obj = mongodb.ObjectId(id)
-    const empId = await EList.findOne({ _id: obj });
+    const empId = await EList.findById({ _id: obj });
     if (!empId) {
       return res.status(404).send({ error: 'Employee not found' });
     }
