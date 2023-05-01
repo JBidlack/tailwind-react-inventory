@@ -183,10 +183,15 @@ app.delete('/api/employees/:_id/delete', async (req, res) => {
   //   }
   // }
   // )  
-  EList.findByIdAndDelete(id).then(data => {
-      console.log(data)
-    }).catch(err => 
-      console.log(err.message))
+  try{
+    const result = await EList.findByIdAndDelete(id).then(data => {
+        console.log(data)
+        console.log(result);
+      }).catch(err => 
+        console.log(err.message))
+    } catch (err) {
+        console.log(err)
+      }
   //   console.log(emp)
   //   res.send({data: true});
   // }).catch ((err) =>{
