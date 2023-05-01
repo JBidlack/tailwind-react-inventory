@@ -28,7 +28,7 @@ const Employees = () => {
 
     const deleteEmp = async (emp) => {
         await axios.delete('/api/employees/' + emp._id);
-        setEmployee(employee.filter(p => p._id !== p.id));
+        setEmployee(employee.filter(p => p._id !== p._id));
     };
 
     return(
@@ -38,63 +38,29 @@ const Employees = () => {
                     <button className='headerButtons'>Add Employee</button>
                 </div>
             </div>
-            <div className='flex justify-center mx-8'>
-                {/* <ul className='flex flex-col justify-center list-none w-1/3 bg-white'>
-                    <li className='flex flex-col justify-center font-bold pb-4 text-center'>Employee Name</li> 
-                    {employee &&
-                    employee.map((name, index) => (
-                        <li key={`${name.Name}_${index}`} className='flex justify-center border-b 
-                        border-gray-800 mb-2 bg-white' id = 'part-id'> 
-                            <p className='my-2'>{name.Name}</p>
-                        </li>
-                    ))}
-                </ul>
-                <ul className='flex flex-col justify-center list-none w-1/3 bg-white'>
-                    <li className='flex flex-col justify-center font-bold pb-4 text-center'>Department</li>   
-                    {employee &&
-                    employee.map((name, index) => (
-                        <li key={`${name.Dept}_${index}`} className='flex justify-center border-b 
-                        border-gray-800 mb-2 bg-white'> 
-                            <p className='my-2'>{name.Dept}</p>
-                        </li>
-                    ))}
-                </ul>
-                <ul className='flex flex-col justify-center list-none w-1/3 bg-white'>
-                    <li className='flex flex-col justify-center font-bold pb-4 text-center'>Remove/Edit</li> 
-                    {employee &&
-                    employee.map((name, index) => (
-                        <li key={`${name._id}`} className='flex justify-center border-b 
-                        border-gray-800 mb-2 bg-white'> 
-                            <button className='bg-yellow-400 rounded-md px-2 m-2 '>Edit</button>
-                            <button className='bg-red-500 rounded-md px-2 m-2'
-                            onClick={() => deleteEmp(index)}>Delete</button>
-                        </li>
-                    ))}
-                </ul> */}
-            </div>
-                <div className='flex  w-2/3 mx-auto'>
-                <table className='flex flex-col justify-center list-none w-full bg-white'>
-                    <thead className='flex justify-center w-full text-sm font-bold bg-yellow-400'>
-                        <tr className='flex w-full p-2'>
-                            <th className='w-1/3 mx-10 p-2'>Employee Name</th>
-                            <th className='w-1/3 mx-10 p-2'>Department</th>
-                            <th className='w-1/3 mx-10 p-2'>Remove/Edit</th>
+            <div className='flex  w-2/3 mx-auto'>
+            <table className='flex flex-col justify-center list-none w-full bg-white'>
+                <thead className='flex justify-center w-full text-sm font-bold bg-yellow-400'>
+                    <tr className='flex w-full p-2'>
+                        <th className='w-1/3 mx-10 p-2'>Employee Name</th>
+                        <th className='w-1/3 mx-10 p-2'>Department</th>
+                        <th className='w-1/3 mx-10 p-2'>Remove/Edit</th>
+                    </tr>
+                </thead>
+                <tbody className=''>
+                    {employee.map((emp, index) => (
+                        <tr key = {`${emp._id}_${index}`} className='flex w-full p-2'>
+                            <td className='flex justify-center w-1/3 mx-10 p-2'> {emp.Name}</td>
+                            <td className='flex justify-center w-1/3 mx-10 p-2'> {emp.Dept}</td>
+                            <td className='flex justify-center w-1/3 mx-10 p-2'> 
+                                <button className='bg-yellow-400 font-semibold rounded-md mx-2 px-4'>Edit</button>
+                                <button className='bg-red-500 font-semibold rounded-md mx-2 px-4'
+                                onClick={() => deleteEmp(emp)}>Delete</button>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody className=''>
-                        {employee.map((emp, index) => (
-                            <tr key = {`${emp._id}_${index}`} className='flex w-full p-2'>
-                                <td className='flex justify-center w-1/3 mx-10 p-2'> {emp.Name}</td>
-                                <td className='flex justify-center w-1/3 mx-10 p-2'> {emp.Dept}</td>
-                                <td className='flex justify-center w-1/3 mx-10 p-2'> 
-                                    <button className='bg-yellow-400 font-semibold rounded-md mx-2 px-4'>Edit</button>
-                                    <button className='bg-red-500 font-semibold rounded-md mx-2 px-4'
-                                    onClick={() => deleteEmp(emp)}>Delete</button>
-                                </td>
-                            </tr>
-                             
-                        ))}
-                     </tbody>
+                            
+                    ))}
+                    </tbody>
                 </table>
             </div>
         </div>
