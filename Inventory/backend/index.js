@@ -176,7 +176,7 @@ app.get('/api/employees/:_id', async (req, res) => {
 });
 
 app.delete('/api/employees/:_id/delete', async (req, res) => {
-  const id = req.params._id;
+  
   // mongodb.delete(id, (err, data) => {
   //   if (err) {
   //     console.log
@@ -184,14 +184,16 @@ app.delete('/api/employees/:_id/delete', async (req, res) => {
   // }
   // )  
   try{
+    const id = req.params._id;
     const result = await EList.findByIdAndDelete(id).then(data => {
         console.log(data)
-        console.log(result);
       }).catch(err => 
         console.log(err.message))
     } catch (err) {
         console.log(err)
       }
+
+      console.log(result.status)
   //   console.log(emp)
   //   res.send({data: true});
   // }).catch ((err) =>{
