@@ -26,8 +26,8 @@ const Employees = () => {
             });
       }, [employee]);
 
-    const deleteEmp = async (emp) => {
-        console.log(emp._id)
+    async function deleteEmp (emp) {
+        console.log(emp)
         await axios.delete('/api/employees/' + emp._id +'/delete');
         setEmployee(employee.filter(p => p._id !== emp._id));
     };
@@ -56,7 +56,7 @@ const Employees = () => {
                             <td className='flex justify-center w-1/3 mx-10 p-2'> 
                                 <button className='bg-yellow-400 font-semibold rounded-md mx-2 px-4'>Edit</button>
                                 <button className='bg-red-500 font-semibold rounded-md mx-2 px-4'
-                                onClick={() => deleteEmp(emp)}>Delete</button>
+                                onClick={() => deleteEmp(employee[index])}>Delete</button>
                             </td>
                         </tr>
                             
