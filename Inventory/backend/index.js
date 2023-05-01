@@ -183,7 +183,7 @@ app.delete('/api/employees/:_id/delete', async (req, res) => {
     if(result.length === 0){
       console.log('employee not found')
     }
-    console.log(result._id);
+
   } catch (err) {
     console.log(err);
   }
