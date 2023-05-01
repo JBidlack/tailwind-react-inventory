@@ -28,7 +28,7 @@ const Employees = () => {
 
     const deleteEmp = async (emp) => {
         console.log(emp._id)
-        await axios.delete('/api/employees/' + emp._id);
+        await axios.delete('/api/employees/' + emp._id +'/delete');
         setEmployee(employee.filter(p => p._id !== p._id));
     };
 
