@@ -164,7 +164,7 @@ app.get('/api/employees', async (req, res) => {
 app.get('/api/employees/:_id', async (req, res) => {
   try {
     const id = req.params._id;
-    const empId = await EList.findOne({ _id: id });
+    const empId = await EList.findOne({ id: id });
     if (!empId) {
       return res.status(404).send({ error: 'Employee not found' });
     }
@@ -176,7 +176,7 @@ app.get('/api/employees/:_id', async (req, res) => {
 });
 
 app.delete('/api/employees/:_id', async (req, res) => {
-    EList.findByIdAndDelete({_id: req.params._id}).then((emp) => {
+    EList.findByIdAndDelete({id: req.params._id}).then((emp) => {
     res.send({data: true});
   }).catch ((err) =>{
     console.log(err);
