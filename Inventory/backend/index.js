@@ -179,11 +179,7 @@ app.delete('/api/employees/:Name/delete', async (req, res) => {
   
   try {
     const name = req.params.Name;
-    const result = await EList.findOneAndDelete({ Name: name });
-    if(result.length === 0){
-      console.log('employee not found')
-    }
-
+    await EList.findOneAndDelete({ Name: name });
   } catch (err) {
     console.log(err);
   }
