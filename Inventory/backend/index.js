@@ -177,30 +177,14 @@ app.get('/api/employees/:_id', async (req, res) => {
 
 app.delete('/api/employees/:_id/delete', async (req, res) => {
   
-  // mongodb.delete(id, (err, data) => {
-  //   if (err) {
-  //     console.log
-  //   }
-  // }
-  // )  
-  try{
+  try {
     const id = req.params._id;
-    const result = await EList.findByIdAndDelete(id).then(data => {
-        console.log(data)
-      }).catch(err => 
-        console.log(err.message))
-        console.log(result.status)
-    } catch (err) {
-        console.log(err)
-      }
-  //   console.log(emp)
-  //   res.send({data: true});
-  // }).catch ((err) =>{
-  //   console.log(emp)
-  //   console.log(err);
-  //   res.status(500).send({ error: 'Internal server error' });
-  } 
-);
+    const result = await EList.findByIdAndDelete(id);
+    console.log(result.status);
+  } catch (err) {
+    console.log(err);
+  }
+}); 
 
 const mailer = nodemailer.createTransport({
   service: 'hotmail',
