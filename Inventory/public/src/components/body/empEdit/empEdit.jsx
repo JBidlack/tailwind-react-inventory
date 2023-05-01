@@ -28,9 +28,11 @@ const Employees = () => {
 
     async function deleteEmp (emp) {
         console.log(emp)
-        await axios.delete('/api/employees/' + emp._id +'/delete');
+        await axios.delete('/api/employees/' + emp.Name +'/delete');
         setEmployee(employee.filter(p => p._id !== emp._id));
     };
+
+    
 
     return(
         <div>
@@ -63,6 +65,23 @@ const Employees = () => {
                     ))}
                     </tbody>
                 </table>
+            </div>
+            <div className='w-full bg-neutral-500 bg-opacity-20 z-50 flex items-center justify-center h-full'>
+                <form className='bg-yellow-400 w-1/2 h-2/3  flex justify-center rounded-md shadow-md'>
+                    <div>
+                        <div className='w-full flex justify-center '>
+                            <label className='m-auto flex justify-center font-bold text-xl my-3 mb-8'>Add Employee</label>
+                        </div>
+                        <div className='w-full my-4'>
+                            <label className='pr-2'>Name:</label>
+                            <input className='w-2/3 rounded-sm shadow-sm'></input> 
+                        </div>
+                        <div className='w-full my-4'>
+                            <label className='pr-2'>Department:</label>
+                            <input className='w-2/3 rounded-sm shadow-sm'></input> 
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
       );
