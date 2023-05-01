@@ -180,6 +180,9 @@ app.delete('/api/employees/:_id/delete', async (req, res) => {
   try {
     const id = req.params._id;
     const result = await EList.findByIdAndDelete(id);
+    if(!result){
+      console.log('employee not found')
+    }
     console.log(result.status);
   } catch (err) {
     console.log(err);
