@@ -189,11 +189,10 @@ app.delete('/api/employees/:_id/delete', async (req, res) => {
         console.log(data)
       }).catch(err => 
         console.log(err.message))
+        console.log(result.status)
     } catch (err) {
         console.log(err)
       }
-
-      console.log(result.status)
   //   console.log(emp)
   //   res.send({data: true});
   // }).catch ((err) =>{
