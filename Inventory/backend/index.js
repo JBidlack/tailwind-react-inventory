@@ -160,6 +160,32 @@ app.get('/api/employees', async (req, res) => {
   } 
 });
 
+app.put('/api/employees/:Name/new', async (req, res) => {
+  try{
+    const name = req.params.Name;
+    const{ Dept, Email, Admin } = req.body;
+    const existing = await EList.findOne({Name: name});
+
+    if(existing){
+      alert("This name already exists!");
+    }
+    else {
+      const newEmp = new EList({
+        _id: new mongodb.ObjectId(),
+        Name: req.params.Name,
+        Dept: Dept,
+        Email: Email,
+        Admin: Admin
+      });
+      const saved = await newEmp.save();
+      res.send(saved);
+    }
+  }
+  catch(err){
+    res.status(500).send({ error: 'Internal server error' });
+  }
+})
+
 app.get('/api/employees/:Name', async (req, res) => {
   try {
     const name = req.params.Name;

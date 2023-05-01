@@ -6,11 +6,44 @@ import '../../../App.css';
 const Employees = () => {
     const [employee, setEmployee] = useState([]);
     const [loader, setLoader] = useState(false);
-    const [showForm, setShowForm] = useState(false);
+    const [isVisible, setIsVisible] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
 
-    const handleClick = () => {
-        setShowForm(true);
-      };
+
+    const handleCancel = (e) => {
+        e.preventDefault();
+        setIsVisible(false);
+    }
+
+    const handleAdd = (e) => {
+        e.preventDefault();
+        setIsVisible(true);
+    }
+
+    const setChecked = (e) => {
+
+        setIsAdmin(e.target.checked);
+        console.log(isAdmin)
+    }
+
+    const addEmp = (e) => {
+        e.preventDefault();
+
+        const form = document.querySelector('form');
+        let newName = form.querySelector('input[name=empName]')
+        let newDept = form.querySelector('input[name=dept]')
+        let newEmail = form.querySelector('input[name=email]')
+        let newAdmin = form.querySelector('input[name=admin]')
+
+        axios.put('/api/employees/' + newName.value + '/new',
+        {
+            Name: newName.value,
+            Dept: newDept.value,
+            Email: newEmail.value,
+            Admin: isAdmin
+        });
+
+    };
 
     useEffect(() => {
         setLoader(true);
@@ -38,7 +71,8 @@ const Employees = () => {
         <div>
             <div className="w-full flex flex-col min-h-[85%]">
                 <div className='w-full flex justify-center flex-row mt-4 mb-6'>
-                    <button className='headerButtons'>Add Employee</button>
+                    <button className='headerButtons'
+                    onClick={(e) => handleAdd(e)}>Add Employee</button>
                 </div>
             </div>
             <div className='flex  w-2/3 mx-auto'>
@@ -66,19 +100,33 @@ const Employees = () => {
                     </tbody>
                 </table>
             </div>
-            <div className='w-full bg-neutral-500 bg-opacity-20 z-50 flex items-center justify-center h-full'>
-                <form className='bg-yellow-400 w-1/2 h-2/3  flex justify-center rounded-md shadow-md'>
-                    <div>
+            <div className={`fixed top-0 left-0 right-0 bottom-0 w-full bg-neutral-500 bg-opacity-30 z-50 flex items-center justify-center h-full ${isVisible ? '' : 'hidden'}`}>
+                <form className='bg-yellow-400 w-1/3 flex justify-center rounded-md shadow-md my-6'>
+                    <div className='w-full mx-10'>
                         <div className='w-full flex justify-center '>
-                            <label className='m-auto flex justify-center font-bold text-xl my-3 mb-8'>Add Employee</label>
+                            <label className='m-auto flex justify-center font-bold text-xl my-6 mb-8'>Add Employee</label>
                         </div>
-                        <div className='w-full my-4'>
+                        <div className='flex justify-start w-full my-4'>
                             <label className='pr-2'>Name:</label>
-                            <input className='w-2/3 rounded-sm shadow-sm'></input> 
+                            <input name='empName' className='w-2/3 rounded-sm shadow-sm' />
                         </div>
                         <div className='w-full my-4'>
                             <label className='pr-2'>Department:</label>
-                            <input className='w-2/3 rounded-sm shadow-sm'></input> 
+                            <input name='dept' className='w-2/3 rounded-sm shadow-sm' /> 
+                        </div>
+                        <div className='w-full my-4'>
+                            <label className='pr-2'>E-Mail:</label>
+                            <input name='email' type='email' className='w-2/3 rounded-sm shadow-sm'></input> 
+                        </div>
+                        <div className='w-full my-4'>
+                            <label className='pr-2'>Admin:</label>
+                            <input name='admin' type='checkbox' className='rounded-sm shadow-sm'
+                             onChange={setChecked}/> 
+                        </div>
+                        <div className='flex justify-center mb-6'>
+                            <button className='border border-black bg-green-600 p-2 rounded-md m-4'>Submit</button>
+                            <button className='border border-black bg-red-600 p-2 rounded-md m-4'
+                            onClick={((e) => handleCancel(e))}>Cancel</button>
                         </div>
                     </div>
                 </form>
