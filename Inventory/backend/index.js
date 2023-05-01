@@ -163,7 +163,7 @@ app.get('/api/employees', async (req, res) => {
 app.get('/api/employees/:_id', async (req, res) => {
   try {
     const id = req.params._id;
-    const empId = await EList.find({ _id: req.params._id });
+    const empId = await EList.find({ _id: objectId(id) });
     if (!empId) {
       return res.status(404).send({ error: 'Employee not found' });
     }
@@ -175,15 +175,27 @@ app.get('/api/employees/:_id', async (req, res) => {
   }
 });
 
-app.delete('/api/employees/:_id', async (req, res) => {
+app.delete('/api/employees/:_id/delete', async (req, res) => {
   const id = req.params._id;
-    EList.findByIdAndDelete(id).then((emp) => {
-    console.log(emp)
-    res.send({data: true});
-  }).catch ((err) =>{
-    console.log(emp)
-    console.log(err);
-    res.status(500).send({ error: 'Internal server error' });
+  // mongodb.delete(id, (err, data) => {
+  //   if (err) {
+  //     console.log
+  //   }
+  // }
+  // )  
+  EList.findByIdAndDelete(id, (err, data) => {
+    if(err) {
+      console.log(err)
+    }
+    else{
+      console.log(data)
+    }
+  //   console.log(emp)
+  //   res.send({data: true});
+  // }).catch ((err) =>{
+  //   console.log(emp)
+  //   console.log(err);
+  //   res.status(500).send({ error: 'Internal server error' });
   } 
 )});
 
