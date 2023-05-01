@@ -194,7 +194,7 @@ app.delete('/api/employees/:_id/delete', async (req, res) => {
   //   console.log(err);
   //   res.status(500).send({ error: 'Internal server error' });
   } 
-)});
+);
 
 const mailer = nodemailer.createTransport({
   service: 'hotmail',
