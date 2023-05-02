@@ -189,7 +189,7 @@ app.put('/api/employees/:Name/new', async (req, res) => {
 app.get('/api/employees/:Name', async (req, res) => {
   try {
     const name = req.params.Name;
-    const empId = await EList.find({ Name: name });
+    const empId = await EList.findOne({ Name: name });
     res.send(empId);
   } catch (err) {
     console.log(empId)
