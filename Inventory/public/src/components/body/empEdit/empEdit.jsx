@@ -21,9 +21,7 @@ const Employees = () => {
     }
 
     const setChecked = (e) => {
-
         setIsAdmin(e.target.checked);
-        console.log(isAdmin)
     }
 
     const addEmp = (e) => {
@@ -44,6 +42,27 @@ const Employees = () => {
         setIsVisible(false);
     };
 
+    async function editEmp(emp) {
+        let editName = form.querySelector('input[name=editEmpName]');
+        let editDept = form.querySelector('input[name=editDept]');
+        let editEmail = form.querySelector('input[name=editEmail]');
+
+        axios.put('/api/employees/' + emp.Name +'/edit', 
+                    {
+                        Name: editName.value,
+                        Dept: editDept.value,
+                        Email: editEmail.value,
+                        Admin: isAdmin,
+                    }
+                )
+
+    }
+
+    async function deleteEmp (emp) {
+        await axios.delete('/api/employees/' + emp.Name +'/delete');
+        setEmployee(employee.filter(p => p._id !== emp._id));
+    };
+
     useEffect(() => {
         setLoader(true);
         axios.get('/api/employees')
@@ -57,14 +76,6 @@ const Employees = () => {
                 setLoader(false);
             });
       }, [employee]);
-
-    async function deleteEmp (emp) {
-        console.log(emp)
-        await axios.delete('/api/employees/' + emp.Name +'/delete');
-        setEmployee(employee.filter(p => p._id !== emp._id));
-    };
-
-    
 
     return(
         <div>
@@ -89,7 +100,8 @@ const Employees = () => {
                             <td className='flex justify-center w-1/3 mx-10 p-2'> {emp.Name}</td>
                             <td className='flex justify-center w-1/3 mx-10 p-2'> {emp.Dept}</td>
                             <td className='flex justify-center w-1/3 mx-10 p-2'> 
-                                <button className='bg-yellow-400 font-semibold rounded-md mx-2 px-4'>Edit</button>
+                                <button className='bg-yellow-400 font-semibold rounded-md mx-2 px-4'
+                                onClick={() => editEmp(emp)}>Edit</button>
                                 <button className='bg-red-500 font-semibold rounded-md mx-2 px-4'
                                 onClick={() => deleteEmp(emp)}>Delete</button>
                             </td>
@@ -120,6 +132,38 @@ const Employees = () => {
                         <div className='flex justify-center w-full my-4'>
                             <label className='pr-2'>Admin:</label>
                             <input name='admin' type='checkbox' className='rounded-sm shadow-sm'
+                             onChange={setChecked}/> 
+                        </div>
+                        <div className='flex justify-center mb-6'>
+                            <button className='border border-black bg-green-600 p-2 rounded-md m-4'
+                            onClick={(e) => addEmp(e)}>Submit</button>
+                            <button className='border border-black bg-red-600 p-2 rounded-md m-4'
+                            onClick={((e) => handleCancel(e))}>Cancel</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div className={`fixed top-0 left-0 right-0 bottom-0 w-full bg-neutral-500 bg-opacity-30 z-50 flex items-center justify-center h-full ${isVisible ? '' : 'hidden'}`}>
+                <form className='bg-yellow-400 w-1/3 flex justify-center rounded-lg shadow-md my-6'>
+                    <div className='w-full mx-10'>
+                        <div className='w-full flex justify-center '>
+                            <label className='m-auto flex justify-center font-bold text-xl my-6 mb-8'>Edit Employee</label>
+                        </div>
+                        <div className='flex justify-center w-full my-4'>
+                            <label className='pr-2'>Name:</label>
+                            <input name='editEmpName' className='w-1/2 rounded-sm shadow-sm'/>
+                        </div>
+                        <div className='w-full flex justify-center my-4'>
+                            <label className='pr-2'>Department:</label>
+                            <input name='editDept' className='w-1/2 rounded-sm shadow-sm' /> 
+                        </div>
+                        <div className='flex justify-center w-full my-4'>
+                            <label className='pr-2'>E-Mail:</label>
+                            <input name='editEmail' type='email' className='w-1/2 rounded-sm shadow-sm'></input> 
+                        </div>
+                        <div className='flex justify-center w-full my-4'>
+                            <label className='pr-2'>Admin:</label>
+                            <input name='editAdmin' type='checkbox' className='rounded-sm shadow-sm'
                              onChange={setChecked}/> 
                         </div>
                         <div className='flex justify-center mb-6'>
