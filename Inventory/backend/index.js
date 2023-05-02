@@ -189,16 +189,17 @@ app.put('/api/employees/:Name/new', async (req, res) => {
 app.put('/api/employees/:Name/edit', async (req, res) => {
   try{
     const name = req.params.Name;
-    const{ Name, Dept, Email, Admin } = req.body;
+    const{ Dept, Email, Admin } = req.body;
 
       const updated = await EList.findOneAndUpdate(
         { Name: req.params.Name },
-        {Name: Name,
+        {Name: name,
         Dept: Dept,
         Email: Email,
         Admin: Admin},
         {new: true }
       );
+      console.log(updated)
       res.send(updated)
   } catch (err){
     res.status(500).send({ error: 'Internal server error' });

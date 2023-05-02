@@ -85,15 +85,15 @@ const Employees = () => {
         let editDept = form.querySelector('input[name=editDept]');
         let editEmail = form.querySelector('input[name=editEmail]');
 
-        axios.put('/api/employees/' + emp.Name +'/edit', 
-                    {
-                        Name: editName.value,
-                        Dept: editDept.value,
-                        Email: editEmail.value,
-                        Admin: editIsAdmin,
-                    }
-                )
-
+        axios.put('/api/employees/' + emp.Name + '/edit', 
+            {
+                Name: editName.value,
+                Dept: editDept.value,
+                Email: editEmail.value,
+                Admin: editIsAdmin,
+            }
+        )
+        setEditIsVisible(false);
     }
 
     async function deleteEmp (emp) {
@@ -206,7 +206,7 @@ const Employees = () => {
                         </div>
                         <div className='flex justify-center mb-6'>
                             <button className='border border-black bg-green-600 p-2 rounded-md m-4'
-                            onClick={() => editEmp(emp)}>Submit</button>
+                            onClick={(e) => editEmp(e, emp)}>Submit</button>
                             <button className='border border-black bg-red-600 p-2 rounded-md m-4'
                             onClick={((e) => handleEmpCancel(e))}>Cancel</button>
                         </div>
