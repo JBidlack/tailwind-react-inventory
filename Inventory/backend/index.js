@@ -192,7 +192,7 @@ app.put('/api/employees/:Name/edit', async (req, res) => {
     const{ Dept, Email, Admin } = req.body;
 
       const updated = await EList.findOneAndUpdate(
-        { Name: req.params.Name },
+        { Name: name },
         {Name: name,
         Dept: Dept,
         Email: Email,

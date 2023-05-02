@@ -54,7 +54,9 @@ const Employees = () => {
     };
 
     const showEditEmp = async (e, emp)  => {
-        const form = document.querySelector('form[name=editForm');
+        e.preventDefault();
+
+        const form = document.querySelector('form[name=editForm]');
         let editName = form.querySelector('input[name=editEmpName]');
         let editDept = form.querySelector('input[name=editDept]');
         let editEmail = form.querySelector('input[name=editEmail]');
@@ -77,13 +79,13 @@ const Employees = () => {
         setEditIsVisible(true);
     }
 
-    const editEmp =  (e, emp) => {
+    const editEmp = (e, emp) => {
         e.preventDefault();
 
-        const form = document.querySelector('form[name=editForm');
-        let editName = form.querySelector('input[name=editEmpName]');
-        let editDept = form.querySelector('input[name=editDept]');
-        let editEmail = form.querySelector('input[name=editEmail]');
+        const form = document.querySelector(`form[name=editForm]`);
+        let editName = form.querySelector(`input[name=editEmpName]`);
+        let editDept = form.querySelector(`input[name=editDept]`);
+        let editEmail = form.querySelector(`input[name=editEmail]`);
 
         axios.put('/api/employees/' + emp.Name + '/edit', 
             {
@@ -92,7 +94,8 @@ const Employees = () => {
                 Email: editEmail.value,
                 Admin: editIsAdmin,
             }
-        )
+        );
+        console.log(editName.value, editEmail.value, editDept.value)
         setEditIsVisible(false);
     }
 
@@ -206,7 +209,7 @@ const Employees = () => {
                         </div>
                         <div className='flex justify-center mb-6'>
                             <button className='border border-black bg-green-600 p-2 rounded-md m-4'
-                            onClick={(e) => editEmp(e, emp)}>Submit</button>
+                            onClick={(e) => editEmp(e, employee)}>Submit</button>
                             <button className='border border-black bg-red-600 p-2 rounded-md m-4'
                             onClick={((e) => handleEmpCancel(e))}>Cancel</button>
                         </div>
