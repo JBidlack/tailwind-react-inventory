@@ -32,7 +32,7 @@ const Employees = () => {
     }
 
     const setEditChecked = (e) => {
-        setEditChecked(e.target.checked);
+        setEditIsAdmin(e.target.checked);
     }
 
     const addEmp = (e) => {
@@ -53,22 +53,25 @@ const Employees = () => {
         setIsVisible(false);
     };
 
-    const showEditEmp = (emp)  => {
+    const showEditEmp = async (e, emp)  => {
         const form = document.querySelector('form[name=editForm');
         let editName = form.querySelector('input[name=editEmpName]');
         let editDept = form.querySelector('input[name=editDept]');
         let editEmail = form.querySelector('input[name=editEmail]');
         let editAdmin = form.querySelector('input[name=editAdmin]')
 
-        const editEmployee = axios.get('/api/employees' + emp.Name);
+        const editEmployee = await axios.get('/api/employees/' + emp.Name);
 
         editName.value = emp.Name;
         editDept.value = emp.Dept;
         editEmail.value = emp.Email;
-        if (editEmployee.Admin){
-            setEditChecked(true)
+
+        if (editEmployee.data.Admin){
+            editAdmin.checked = true
+            setEditIsAdmin(true);
         } else {
-            setEditChecked(false);
+            editAdmin.checked = false
+            setEditIsAdmin(false);
         }
 
         setEditIsVisible(true);
@@ -87,7 +90,7 @@ const Employees = () => {
                         Name: editName.value,
                         Dept: editDept.value,
                         Email: editEmail.value,
-                        Admin: isAdmin,
+                        Admin: editIsAdmin,
                     }
                 )
 
@@ -136,7 +139,7 @@ const Employees = () => {
                             <td className='flex justify-center w-1/3 mx-10 p-2'> {emp.Dept}</td>
                             <td className='flex justify-center w-1/3 mx-10 p-2'> 
                                 <button className='bg-yellow-400 font-semibold rounded-md mx-2 px-4'
-                                onClick={() => showEditEmp(emp)}>Edit</button>
+                                onClick={(e) => showEditEmp(e, emp)}>Edit</button>
                                 <button className='bg-red-500 font-semibold rounded-md mx-2 px-4'
                                 onClick={() => deleteEmp(emp)}>Delete</button>
                             </td>
@@ -179,22 +182,22 @@ const Employees = () => {
                 </form>
             </div>
             <div className={`fixed top-0 left-0 right-0 bottom-0 w-full bg-neutral-500 bg-opacity-30 z-50 flex items-center justify-center h-full ${editIsVisible ? '' : 'hidden'}`}>
-                <form name='editForm' className='bg-yellow-400 w-1/3 flex justify-center rounded-lg shadow-md my-6'>
+                <form name='editForm' className='bg-yellow-400 w-1/2 flex justify-center rounded-lg shadow-md my-6'>
                     <div className='w-full mx-10'>
                         <div className='w-full flex justify-center '>
                             <label className='m-auto flex justify-center font-bold text-xl my-6 mb-8'>Edit Employee</label>
                         </div>
                         <div className='flex justify-center w-full my-4'>
                             <label className='pr-2'>Name:</label>
-                            <input name='editEmpName' className='w-1/2 rounded-sm shadow-sm'/>
+                            <input name='editEmpName' className='w-1/2 rounded-sm shadow-sm px-2 py-1'/>
                         </div>
                         <div className='w-full flex justify-center my-4'>
                             <label className='pr-2'>Department:</label>
-                            <input name='editDept' className='w-1/2 rounded-sm shadow-sm' /> 
+                            <input name='editDept' className='w-1/2 rounded-sm shadow-sm px-2 py-1' /> 
                         </div>
                         <div className='flex justify-center w-full my-4'>
                             <label className='pr-2'>E-Mail:</label>
-                            <input name='editEmail' type='email' className='w-1/2 rounded-sm shadow-sm'></input> 
+                            <input name='editEmail' type='email' className='w-1/2 rounded-sm shadow-sm px-2 py-1' /> 
                         </div>
                         <div className='flex justify-center w-full my-4'>
                             <label className='pr-2'>Admin:</label>
