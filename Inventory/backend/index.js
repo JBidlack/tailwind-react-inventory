@@ -184,7 +184,26 @@ app.put('/api/employees/:Name/new', async (req, res) => {
   catch(err){
     res.status(500).send({ error: 'Internal server error' });
   }
-})
+});
+
+app.put('/api/employees/:Name/edit', async (req, res) => {
+  try{
+    const name = req.params.Name;
+    const{ Name, Dept, Email, Admin } = req.body;
+
+      const updated = await EList.findOneAndUpdate(
+        { Name: req.params.Name },
+        {Name: Name,
+        Dept: Dept,
+        Email: Email,
+        Admin: Admin},
+        {new: true }
+      );
+      res.send(updated)
+  } catch (err){
+    res.status(500).send({ error: 'Internal server error' });
+  }
+});
 
 app.get('/api/employees/:Name', async (req, res) => {
   try {
