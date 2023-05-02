@@ -190,7 +190,7 @@ app.put('/api/employees/:Name/edit', async (req, res) => {
   try{
     const name = req.params.Name;
     const{ Name, Dept, Email, Admin } = req.body;
-
+    console.log(name, Name, Dept)
       const updated = await EList.findOneAndUpdate(
         { Name: name },
         {Name: Name,
@@ -209,7 +209,7 @@ app.put('/api/employees/:Name/edit', async (req, res) => {
 app.get('/api/employees/:Name', async (req, res) => {
   try {
     const name = req.params.Name;
-    console.log(name)
+    
     const empId = await EList.findOne({ Name: name });
     res.send(empId);
   } catch (err) {
