@@ -7,7 +7,9 @@ const Employees = () => {
     const [employee, setEmployee] = useState([]);
     const [loader, setLoader] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
+    const [editIsVisible, setEditIsVisible] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
+    const [editIsAdmin, setEditIsAdmin] = useState(false);
 
 
     const handleCancel = (e) => {
@@ -20,18 +22,27 @@ const Employees = () => {
         setIsVisible(true);
     }
 
+    const handleEmpCancel = (e) => {
+        e.preventDefault();
+        setEditIsVisible(false);
+    }
+
     const setChecked = (e) => {
         setIsAdmin(e.target.checked);
+    }
+
+    const setEditChecked = (e) => {
+        setEditChecked(e.target.checked);
     }
 
     const addEmp = (e) => {
         e.preventDefault();
 
-        const form = document.querySelector('form');
+        const form = document.querySelector('form[name=newForm');
         let newName = form.querySelector('input[name=empName]');
         let newDept = form.querySelector('input[name=dept]');
         let newEmail = form.querySelector('input[name=email]');
-
+        
         axios.put('/api/employees/' + newName.value + '/new',
         {
             Name: newName.value,
@@ -42,7 +53,31 @@ const Employees = () => {
         setIsVisible(false);
     };
 
-    async function editEmp(emp) {
+    const showEditEmp = (emp)  => {
+        const form = document.querySelector('form[name=editForm');
+        let editName = form.querySelector('input[name=editEmpName]');
+        let editDept = form.querySelector('input[name=editDept]');
+        let editEmail = form.querySelector('input[name=editEmail]');
+        let editAdmin = form.querySelector('input[name=editAdmin]')
+
+        const editEmployee = axios.get('/api/employees' + emp.Name);
+
+        editName.value = emp.Name;
+        editDept.value = emp.Dept;
+        editEmail.value = emp.Email;
+        if (editEmployee.Admin){
+            setEditChecked(true)
+        } else {
+            setEditChecked(false);
+        }
+
+        setEditIsVisible(true);
+    }
+
+    const editEmp =  (e, emp) => {
+        e.preventDefault();
+
+        const form = document.querySelector('form[name=editForm');
         let editName = form.querySelector('input[name=editEmpName]');
         let editDept = form.querySelector('input[name=editDept]');
         let editEmail = form.querySelector('input[name=editEmail]');
@@ -101,7 +136,7 @@ const Employees = () => {
                             <td className='flex justify-center w-1/3 mx-10 p-2'> {emp.Dept}</td>
                             <td className='flex justify-center w-1/3 mx-10 p-2'> 
                                 <button className='bg-yellow-400 font-semibold rounded-md mx-2 px-4'
-                                onClick={() => editEmp(emp)}>Edit</button>
+                                onClick={() => showEditEmp(emp)}>Edit</button>
                                 <button className='bg-red-500 font-semibold rounded-md mx-2 px-4'
                                 onClick={() => deleteEmp(emp)}>Delete</button>
                             </td>
@@ -112,7 +147,7 @@ const Employees = () => {
                 </table>
             </div>
             <div className={`fixed top-0 left-0 right-0 bottom-0 w-full bg-neutral-500 bg-opacity-30 z-50 flex items-center justify-center h-full ${isVisible ? '' : 'hidden'}`}>
-                <form className='bg-yellow-400 w-1/3 flex justify-center rounded-lg shadow-md my-6'>
+                <form name='newForm' className='bg-yellow-400 w-1/3 flex justify-center rounded-lg shadow-md my-6'>
                     <div className='w-full mx-10'>
                         <div className='w-full flex justify-center '>
                             <label className='m-auto flex justify-center font-bold text-xl my-6 mb-8'>Add Employee</label>
@@ -143,8 +178,8 @@ const Employees = () => {
                     </div>
                 </form>
             </div>
-            <div className={`fixed top-0 left-0 right-0 bottom-0 w-full bg-neutral-500 bg-opacity-30 z-50 flex items-center justify-center h-full ${isVisible ? '' : 'hidden'}`}>
-                <form className='bg-yellow-400 w-1/3 flex justify-center rounded-lg shadow-md my-6'>
+            <div className={`fixed top-0 left-0 right-0 bottom-0 w-full bg-neutral-500 bg-opacity-30 z-50 flex items-center justify-center h-full ${editIsVisible ? '' : 'hidden'}`}>
+                <form name='editForm' className='bg-yellow-400 w-1/3 flex justify-center rounded-lg shadow-md my-6'>
                     <div className='w-full mx-10'>
                         <div className='w-full flex justify-center '>
                             <label className='m-auto flex justify-center font-bold text-xl my-6 mb-8'>Edit Employee</label>
@@ -164,20 +199,20 @@ const Employees = () => {
                         <div className='flex justify-center w-full my-4'>
                             <label className='pr-2'>Admin:</label>
                             <input name='editAdmin' type='checkbox' className='rounded-sm shadow-sm'
-                             onChange={setChecked}/> 
+                             onChange={setEditChecked}/> 
                         </div>
                         <div className='flex justify-center mb-6'>
                             <button className='border border-black bg-green-600 p-2 rounded-md m-4'
-                            onClick={(e) => addEmp(e)}>Submit</button>
+                            onClick={() => editEmp(emp)}>Submit</button>
                             <button className='border border-black bg-red-600 p-2 rounded-md m-4'
-                            onClick={((e) => handleCancel(e))}>Cancel</button>
+                            onClick={((e) => handleEmpCancel(e))}>Cancel</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
-      );
-
+    );
+    
 }
 
 export default Employees;

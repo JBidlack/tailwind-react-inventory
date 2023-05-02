@@ -190,7 +190,7 @@ app.get('/api/employees/:Name', async (req, res) => {
   try {
     const name = req.params.Name;
     const empId = await EList.find({ Name: name });
-    if (empId.length === 0) {
+    if (!empId) {
       return res.status(404).send({ error: 'Employee not found' });
     }
     res.send(empId);
