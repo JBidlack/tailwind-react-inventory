@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {useNavigate} from 'react-router-dom';
 import {v4 as uuidv4} from 'uuid';
-import { account } from '../appwriteConfig';
 import '../../App.css'
 
 
@@ -19,21 +18,6 @@ function SignUp() {
 
         e.preventDefault();
 
-        const promise = account.create(
-            uuidv4(),
-            un.email,
-            un.password,
-            un.name,
-            );
-        
-        promise.then(
-            function(response) {
-                navigate('/login');
-            },
-            function (error) {
-                setUserExists(true)
-            }
-        );
     }
 
     return(
@@ -50,34 +34,19 @@ function SignUp() {
                         htmlFor='name'
                         className='text-sm pr-4 block'>Please Enter your Name:</label>
                     <input 
-                        id='name'
                         name='name'
-                        autoComplete='name'
                         type='text' 
                         className='gap-4 rounded-md border-gray-500 shadow-md p-1 block' 
                         required
-                        onChange={(e) => {
-                            setUn({
-                                ...un,
-                                name: e.target.value,
-                            })
-                        }
-                    }/>
+                    />
                 </div>
                 <div className='flex flex-col justify-center pb-10'>
                     <label htmlFor='email' className='text-sm pr-4 block'>Enter your E-Mail:</label>
                     <input 
-                        id='email'
                         name='email' 
                         type='email' 
                         className= 'gap-4 rounded-md border-gray-500 shadow-md p-1 block'
                         required
-                        onChange={(e) => {
-                            setUn({
-                                ...un,
-                                email: e.target.value,
-                            })
-                        }}
                     />
                 </div>
                 <div className='flex flex-col justify-center pb-20'>
@@ -89,12 +58,6 @@ function SignUp() {
                         type='password' 
                         className='gap-4 rounded-md border-gray-500 shadow-md p-1 block'
                         required
-                        onChange={(e) => {
-                            setUn({
-                                ...un,
-                                password: e.target.value,
-                            })
-                        }}
                     />
                 </div>
                 <div className='flex justify-center align-middle'>
