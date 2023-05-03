@@ -72,6 +72,7 @@ const Employees = () => {
         editName.value = emp.Name;
         editDept.value = emp.Dept;
         editEmail.value = emp.Email;
+        setName(editName.value);
 
         if (editEmployee.data.Admin){
             editAdmin.checked = true
@@ -92,10 +93,10 @@ const Employees = () => {
         let editDept = form.querySelector(`input[name=editDept]`);
         let editEmail = form.querySelector(`input[name=editEmail]`);
 
-        console.log(emp.Name)
-        axios.put('/api/employees/' + emp.Name + '/edit', 
+       console.log(name)
+        axios.put('/api/employees/' + name + '/edit', 
             {
-                Name: name,
+                Name: editName.value,
                 Dept: editDept.value,
                 Email: editEmail.value,
                 Admin: editIsAdmin,
