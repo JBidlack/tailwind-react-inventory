@@ -5,12 +5,14 @@ const  { MongoClient } = require('mongodb');
 const mongodb = require('mongodb');
 const mongoose = require('mongoose');
 const nodemailer = require('nodemailer');
+const authenticate = require('./routes/loginReg')
 require('dotenv').config();
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use('/auth', authenticate)
 
 const email = process.env.EMAIL;
 const emailto = process.env.EMAILRECIP;
@@ -199,7 +201,6 @@ app.put('/api/employees/:Name/edit', async (req, res) => {
         Admin: Admin},
         {new: true }
       );
-      console.log(updated)
       res.send(updated)
   } catch (err){
     res.status(500).send({ error: 'Internal server error' });
@@ -213,7 +214,6 @@ app.get('/api/employees/:Name', async (req, res) => {
     const empId = await EList.findOne({ Name: name });
     res.send(empId);
   } catch (err) {
-    console.log(empId)
     console.log(err);
     res.status(500).send({ error: 'Internal server error' });
   }
@@ -236,6 +236,7 @@ const mailer = nodemailer.createTransport({
     pass: pass
   }
 });
+
 
 const sendEmail = (item) => {
   const mailOpt = {

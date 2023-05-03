@@ -6,46 +6,62 @@ import axios from 'axios';
 
 function Checkout (e) {
 
-    const [empName, setEmpName] = useState(true);
-    const [items, setItems] = useState([]);
-    const [loader, setLoader] = useState(false);
-    const [rows, setRows] = useState(7);
-    const [componentStates, setComponentStates] = useState(
-        [...Array(rows)].map(() => ({
-            inputValue: '',
-            selectedValue: ''
-        }))
-    );
+  const [employee, setEmployee] = useState([]);
+  const [empName, setEmpName] = useState(true);
+  const [items, setItems] = useState([]);
+  const [loader, setLoader] = useState(false);
+  const [rows, setRows] = useState(7);
 
-    const handleInputChange = (value, index) => {
-        setComponentStates((prevStates) => {
-          const newState = [...prevStates];
-          newState[index].selectedValue = value;
-          return newState;
-        });
-      };
-    
-    const handleInputValueChange = (value, index) => {
-    setComponentStates((prevStates) => {
+  const [componentStates, setComponentStates] = useState(
+      [...Array(rows)].map(() => ({
+          inputValue: '',
+          selectedValue: ''
+      }))
+  );
+
+  const handleInputChange = (value, index) => {
+      setComponentStates((prevStates) => {
         const newState = [...prevStates];
-        newState[index].inputValue = value;
+        newState[index].selectedValue = value;
         return newState;
-    });
+      });
     };
+  
+  const handleInputValueChange = (value, index) => {
+  setComponentStates((prevStates) => {
+      const newState = [...prevStates];
+      newState[index].inputValue = value;
+      return newState;
+  });
+  };
 
-    useEffect(() => {
-      setLoader(true);
-      axios.get('/api/items')
-          .then((response) => {
+  useEffect(() => {
+    setLoader(true);
+    axios.get('/api/employees')
+        .then((response) => {
             const data = response.data;
-          setItems(data);
-          setLoader(false);
-          })
-          .catch((error) => {
-          console.log(error);
-          setLoader(false);
-          });
-    }, [items]);
+            setEmployee(data);
+            setLoader(false);
+        })
+        .catch((error) => {
+            console.log(error);
+            setLoader(false);
+        });
+  }, [employee]);
+
+  useEffect(() => {
+    setLoader(true);
+    axios.get('/api/items')
+        .then((response) => {
+          const data = response.data;
+        setItems(data);
+        setLoader(false);
+        })
+        .catch((error) => {
+        console.log(error);
+        setLoader(false);
+        });
+  }, [items]);
 
   const clearAll = (e) => {
     const form = document.querySelector('form');
@@ -131,6 +147,7 @@ function Checkout (e) {
                     <div className='flex flex-row justify-center my-4'>
                       <label className="block text-gray-700 mb-2 pr-2" 
                       htmlFor="employee-name"> Employee Name:</label>
+
                       <input id="employee-name" className='border border-gray-400 
                       rounded-md max-h-6 py-2 px-4 mb-4' type='text' name='employeeName' required 
                       />  
