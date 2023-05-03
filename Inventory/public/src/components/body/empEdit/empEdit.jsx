@@ -5,6 +5,7 @@ import '../../../App.css';
 
 const Employees = () => {
     const [employee, setEmployee] = useState([]);
+    const [name, setName] = useState('');
     const [loader, setLoader] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
     const [editIsVisible, setEditIsVisible] = useState(false);
@@ -30,6 +31,10 @@ const Employees = () => {
     const setChecked = (e) => {
         setIsAdmin(e.target.checked);
     }
+
+    function handleChange(event) {
+        setName(event.target.value);
+      }
 
     const setEditChecked = (e) => {
         setEditIsAdmin(e.target.checked);
@@ -87,16 +92,15 @@ const Employees = () => {
         let editDept = form.querySelector(`input[name=editDept]`);
         let editEmail = form.querySelector(`input[name=editEmail]`);
 
-
+        console.log(emp.Name)
         axios.put('/api/employees/' + emp.Name + '/edit', 
             {
-                Name: editName.value,
+                Name: name,
                 Dept: editDept.value,
                 Email: editEmail.value,
                 Admin: editIsAdmin,
             }
         );
-        console.log(editName.value, editEmail.value, editDept.value)
         setEditIsVisible(false);
     }
 
@@ -193,7 +197,8 @@ const Employees = () => {
                         </div>
                         <div className='flex justify-center w-full my-4'>
                             <label className='pr-2'>Name:</label>
-                            <input name='editEmpName' className='w-1/2 rounded-sm shadow-sm px-2 py-1'/>
+                            <input name='editEmpName' className='w-1/2 rounded-sm shadow-sm px-2 py-1'
+                            onChange={handleChange}/>
                         </div>
                         <div className='w-full flex justify-center my-4'>
                             <label className='pr-2'>Department:</label>
