@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {useNavigate} from 'react-router-dom';
-import {v4 as uuidv4} from 'uuid';
 import '../../App.css'
 
 
@@ -8,16 +7,25 @@ function SignUp() {
 
     const [userExists, setUserExists] = useState(false);
     const navigate = useNavigate();
-    const [un, setUn] = useState({
-        name: "",
-        email: "",
-        password: "",
-    });
 
     const newAcct = async (e) => {
 
         e.preventDefault();
 
+        const un = document.querySelector('input[name=email]');
+        const pw = document.querySelector('input[name=pass]');
+
+        try{
+            axios.post('/auth/register', {
+                username: un.value,
+                password: pw.value
+            });
+
+            navigate('../logged/login');
+        }
+        catch(error) {
+            setUserExists(true);
+        }
     }
 
     return(
@@ -62,7 +70,7 @@ function SignUp() {
                 </div>
                 <div className='flex justify-center align-middle'>
                     <button type='submit' className='bg-black text-yellow-400 
-                        py-2 p-3 rounded-lg' onClick={newAcct}>
+                        py-2 p-3 rounded-lg' onClick={(e) => newAcct(e)}>
                             Sign Up
                     </button>
                 </div>
@@ -72,6 +80,7 @@ function SignUp() {
             </form>
         </div>
     );
+
 }
 
 export default SignUp

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 import '../../App.css'
 
@@ -7,15 +8,19 @@ function LogIn() {
 
     const [userError, setUserError] = useState(false);
     const navigate = useNavigate();
-    const [un, setUn] = useState({
-        email: "",
-        password: "",
-    });
 
     const loginUser = async (e) => {
         e.preventDefault();
 
+        const un = document.querySelector('input[name=email]');
+        const pw = document.querySelector('input[name=pass]');
+
         try{
+            axios.post('/auth/login', {
+                username: un.value,
+                password: pw.value
+            });
+            localStorage.setItem('token', response.data.token);
             navigate('../logged/checkout');
         } catch (error){
             setUserError(true);
