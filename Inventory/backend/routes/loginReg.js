@@ -1,14 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const cors = require('cors');
-const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const app = express();
 require('dotenv').config()
 
-app.use(cors());
-app.use(express.json());
 
 
 const loginToken = process.env.TOKEN;
@@ -21,7 +16,7 @@ const schema = mongoose.Schema({
 
 const User = mongoose.model('User', schema);
 
-app.post('/login', async (req, res) => {
+router.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body;
     console.log(username, password)
@@ -37,8 +32,6 @@ app.post('/login', async (req, res) => {
 
   } catch (err) {
     res.status(500).send({ error: 'Internal server error' });
-  } finally {
-    await client.close();
   }
 });
 

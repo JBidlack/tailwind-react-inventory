@@ -32,6 +32,10 @@ UserLogin.on('connected', () => {
   console.log('users can log in')
 });
 
+UserLogin.on('error', (error) => {
+  console.error('MongoDB connection error:', error);
+});
+
 //verifies mongodb connection was successful
 invDB.on('connected', () => {
   console.log("We have liftoff!");
