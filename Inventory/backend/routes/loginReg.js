@@ -25,7 +25,7 @@ const schema = mongoose.Schema({
   password: {type: String, required: true}
 });
 
-const User = mongoose.model('Users', schema);
+const User = mongoose.model('User', schema);
 
 app.post('/login', async (req, res) => {
   try {
