@@ -17,27 +17,12 @@ const schema = mongoose.Schema({
 
 const User = mongoose.model('User', schema);
 
-//Routes
-router.get('/login', async (req, res) => {
-  try {
-    User.find({ })
-      .then((data) => {
-        res.send(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-  } catch (err) {
-    console.log(err);
-    res.status(500).send({ error: 'Internal server error' });
-  } 
-});
-
 router.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body;
     console.log(username, password)
-    const user = User.findOne({username: username});
+    const user = User.findOne({
+      username: username});
 
     if (user && await bcrypt.compare(password, user.password)) {
       const token = jwt.sign({ username }, loginToken);
@@ -52,10 +37,11 @@ router.post('/login', async (req, res) => {
   }
 });
 
-router.post('/register', async (req, res) => {
+router.post('/register/:username', async (req, res) => {
   try{
+    const name = req.params.username;
     const { username, password } = req.body;
-    const exists = await User.findOne({username: username});
+    const exists = await User.findOne({username: name});
     console.log(exists)
     if (exists) {
       console.log(exists)

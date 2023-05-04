@@ -5,7 +5,7 @@ const  { MongoClient } = require('mongodb');
 const mongodb = require('mongodb');
 const mongoose = require('mongoose');
 const nodemailer = require('nodemailer');
-const router = require('./routes/loginReg')
+const router = require('./routes/loginReg.js')
 require('dotenv').config();
 
 const app = express();
