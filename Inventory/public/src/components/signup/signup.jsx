@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {useNavigate} from 'react-router-dom';
+import axios from 'axios'
 import '../../App.css'
 
 
@@ -21,9 +22,10 @@ function SignUp() {
                 password: pw.value
             });
 
-            navigate('../logged/login');
+            navigate('../login');
         }
         catch(error) {
+            console.log(error.response)
             setUserExists(true);
         }
     }
