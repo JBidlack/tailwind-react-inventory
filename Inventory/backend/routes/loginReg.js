@@ -10,14 +10,7 @@ require('dotenv').config()
 app.use(cors());
 app.use(express.json());
 
-const userConn = process.env.USERDB;
 const loginToken = process.env.TOKEN;
-
-const UserLogin = mongoose.createConnection(userConn);
-
-UserLogin.on('connected', () => {
-  console.log('users can log in')
-})
 
 // schema
 const schema = mongoose.Schema({
