@@ -13,7 +13,7 @@ app.use(express.json());
 const userConn = process.env.USERDB;
 const loginToken = process.env.TOKEN;
 
-const UserLogin = mongoose.connect(userConn);
+const UserLogin = mongoose.createConnection(userConn);
 
 UserLogin.on('connected', () => {
   console.log('users can log in')
