@@ -24,7 +24,7 @@ const User = mongoose.model('User', schema);
 app.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body;
-    const user = User.findOne({username: username});
+    const user = User.findOne({username: req.body.username});
 
     if (user && await bcrypt.compare(password, user.password)) {
       const token = jwt.sign({ username }, loginToken);
