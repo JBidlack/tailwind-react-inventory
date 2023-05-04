@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config()
-
+const userConn = process.env.USERDB;
 
 
 const loginToken = process.env.TOKEN;
@@ -14,6 +14,8 @@ const schema = mongoose.Schema({
   username: {type: String, required: true},
   password: {type: String, required: true}
 });
+
+mongoose.connect(userConn);
 
 const User = mongoose.model('User', schema);
 
