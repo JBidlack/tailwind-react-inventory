@@ -21,6 +21,7 @@ const User = mongoose.model('User', schema);
 
 router.post('/login', async (req, res) => {
   try {
+
     const { user, password } = req.body;
     console.log(user, password)
     const exists = User.findOne({
@@ -39,10 +40,11 @@ router.post('/login', async (req, res) => {
   }
 });
 
-router.post('/register/', async (req, res) => {
+router.post('/register/:username', async (req, res) => {
   try{
-    const { user, password } = req.body;
-    const exists = await User.findOne({username: user});
+    const user = req.params.username;
+    const { username, password } = req.body;
+    const exists = await User.findOne({username: username});
     console.log(exists)
     if (exists) {
       console.log(exists)
@@ -51,9 +53,8 @@ router.post('/register/', async (req, res) => {
     else {
       console.log(exists)
       const hash = await bcrypt.hash(password, 10);
-
-      const user = new User({ username: user, password: hash});
-      res.status(200).send(user);
+      const newUser = new User({ username: username, password: hash});
+      res.status(200).send(newUser);
     }
   }
   catch (error)  {
