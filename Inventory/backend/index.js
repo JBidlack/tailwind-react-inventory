@@ -5,13 +5,14 @@ const  { MongoClient } = require('mongodb');
 const mongodb = require('mongodb');
 const mongoose = require('mongoose');
 const nodemailer = require('nodemailer');
-
+const router = require('./routes/loginReg.js')
 require('dotenv').config();
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use('/auth', router)
 
 const email = process.env.EMAIL;
 const emailto = process.env.EMAILRECIP;
@@ -31,6 +32,8 @@ UserLogin.on('connected', () => {
   console.log('users can log in')
 });
 
+require('./routes/loginReg')
+
 UserLogin.on('error', (error) => {
   console.error('MongoDB connection error:', error);
 });
@@ -44,8 +47,6 @@ invDB.on('connected', () => {
 employeeList.on('connected', () => {
   console.log("We have liftoff employee list!");
 });
-const router = require('./routes/loginReg.js')
-app.use('/auth', router)
 
 // schema
 const invSchema = mongoose.Schema({
