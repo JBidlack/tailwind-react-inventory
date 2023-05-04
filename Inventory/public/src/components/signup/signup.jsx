@@ -17,7 +17,7 @@ function SignUp() {
         const pw = document.querySelector('input[name=pass]');
 
         try{
-            const response = await axios.post('/auth/register/' + un.value, {
+            const response = await axios.post('/register', {
                 username: un.value,
                 password: pw.value
             });

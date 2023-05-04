@@ -12,7 +12,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use('/auth', router)
+
 
 const email = process.env.EMAIL;
 const emailto = process.env.EMAILRECIP;
@@ -32,8 +32,6 @@ UserLogin.on('connected', () => {
   console.log('users can log in')
 });
 
-require('./routes/loginReg')
-
 UserLogin.on('error', (error) => {
   console.error('MongoDB connection error:', error);
 });
@@ -47,6 +45,8 @@ invDB.on('connected', () => {
 employeeList.on('connected', () => {
   console.log("We have liftoff employee list!");
 });
+
+
 
 // schema
 const invSchema = mongoose.Schema({
@@ -68,6 +68,8 @@ const empSchema = mongoose.Schema({
 const InvItem = invDB.model('InventoryItems', invSchema);
 
 const EList = employeeList.model('Employees', empSchema);
+
+app.use(router);
 
 app.listen(port, () => {
   console.log(`Server listening at ${port}`);

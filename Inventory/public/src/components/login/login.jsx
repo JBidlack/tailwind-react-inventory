@@ -16,7 +16,7 @@ function LogIn() {
         const pw = document.querySelector('input[name=pass]');
 
         try{
-            axios.post('/auth/login', {
+            axios.post('/login', {
                 username: un.value,
                 password: pw.value
             });
