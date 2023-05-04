@@ -5,14 +5,14 @@ const  { MongoClient } = require('mongodb');
 const mongodb = require('mongodb');
 const mongoose = require('mongoose');
 const nodemailer = require('nodemailer');
-const authenticate = require('./routes/loginReg')
+const router = require('./routes/loginReg')
 require('dotenv').config();
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use('/auth', authenticate)
+app.use('/auth', router)
 
 const email = process.env.EMAIL;
 const emailto = process.env.EMAILRECIP;
