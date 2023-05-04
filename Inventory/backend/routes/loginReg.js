@@ -30,7 +30,7 @@ const User = mongoose.model('Users', schema);
 app.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body;
-    const user = User.findOne({username});
+    const user = User.findOne({username: username});
 
     if (user && await bcrypt.compare(password, user.password)) {
       const token = jwt.sign({ username }, loginToken);
@@ -50,7 +50,7 @@ app.post('/login', async (req, res) => {
 router.post('/register', async (req, res) => {
   try{
     const { username, password } = req.body;
-    const exists = await User.findOne({username});
+    const exists = await User.findOne({username: username});
 
     if (exists) {
       return res.status(400).json({ error: 'Username already taken' });
@@ -58,7 +58,7 @@ router.post('/register', async (req, res) => {
     else {
       const hash = await bcrypt.hash(password, 10);
 
-      const user = new User({ username, password: hash});
+      const user = new User({ username: username, password: hash});
       res.status(201).send(user);
     }
   }
