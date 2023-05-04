@@ -17,15 +17,17 @@ function SignUp() {
         const pw = document.querySelector('input[name=pass]');
 
         try{
-            axios.post('/auth/register', {
+            const response = axios.post('/auth/register', {
                 username: un.value,
                 password: pw.value
             });
-
-            navigate('../login');
+            if (response.status === 200){
+                navigate('../login');
+            }
         }
         catch(error) {
-            console.log(error.response)
+            console.log(pw.value)
+            console.log(error)
             setUserExists(true);
         }
     }

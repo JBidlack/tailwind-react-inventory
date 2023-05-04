@@ -19,13 +19,18 @@ const emailto = process.env.EMAILRECIP;
 const pass = process.env.PASSWORD;
 const uri = process.env.DATABASE;
 const empList = process.env.EMPDB;
+const userConn = process.env.USERDB;
 const port = 27017 || 3000;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 
 const invDB = mongoose.createConnection(uri);
 const employeeList = mongoose.createConnection(empList);
+const UserLogin = mongoose.createConnection(userConn);
 
+UserLogin.on('connected', () => {
+  console.log('users can log in')
+});
 
 //verifies mongodb connection was successful
 invDB.on('connected', () => {

@@ -10,14 +10,8 @@ require('dotenv').config()
 app.use(cors());
 app.use(express.json());
 
-const userConn = process.env.USERDB;
+
 const loginToken = process.env.TOKEN;
-
-const UserLogin = mongoose.createConnection(userConn);
-
-UserLogin.on('connected', () => {
-  console.log('users can log in')
-})
 
 // schema
 const schema = mongoose.Schema({
@@ -51,15 +45,17 @@ router.post('/register', async (req, res) => {
   try{
     const { username, password } = req.body;
     const exists = await User.findOne({username: username});
-
+    console.log(exists)
     if (exists) {
+      console.log(exists)
       return res.status(400).json({ error: 'Username already taken' });
     }
     else {
+      console.log(exists)
       const hash = await bcrypt.hash(password, 10);
 
       const user = new User({ username: username, password: hash});
-      res.status(201).send(user);
+      res.status(200).send(user);
     }
   }
   catch (error)  {
