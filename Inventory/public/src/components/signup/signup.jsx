@@ -17,12 +17,15 @@ function SignUp() {
         const pw = document.querySelector('input[name=pass]');
 
         try{
-            const response = axios.post('/auth/register/' + un.value, {
+            const response = await axios.post('/auth/register/' + un.value, {
                 username: un.value,
                 password: pw.value
             });
             if (response.status === 200){
                 navigate('../login');
+            }
+            else{
+                console.log(response.status)
             }
         }
         catch(error) {

@@ -15,17 +15,17 @@ const schema = mongoose.Schema({
   password: {type: String, required: true}
 });
 
-const User = mongoose.model('User', schema);
+export const User = mongoose.model('User', schema);
 
 router.post('/login', async (req, res) => {
   try {
-    const { username, password } = req.body;
-    console.log(username, password)
-    const user = User.findOne({
-      username: username});
+    const { user, password } = req.body;
+    console.log(user, password)
+    const exists = User.findOne({
+      username: user});
 
-    if (user && await bcrypt.compare(password, user.password)) {
-      const token = jwt.sign({ username }, loginToken);
+    if (exists && await bcrypt.compare(password, exists.password)) {
+      const token = jwt.sign({ user }, loginToken);
       res.json({token})
     }
     else {
@@ -37,11 +37,10 @@ router.post('/login', async (req, res) => {
   }
 });
 
-router.post('/register/:username', async (req, res) => {
+router.post('/register/', async (req, res) => {
   try{
-    const name = req.params.username;
-    const { username, password } = req.body;
-    const exists = await User.findOne({username: name});
+    const { user, password } = req.body;
+    const exists = await User.findOne({username: user});
     console.log(exists)
     if (exists) {
       console.log(exists)
@@ -51,7 +50,7 @@ router.post('/register/:username', async (req, res) => {
       console.log(exists)
       const hash = await bcrypt.hash(password, 10);
 
-      const user = new User({ username: username, password: hash});
+      const user = new User({ username: user, password: hash});
       res.status(200).send(user);
     }
   }
