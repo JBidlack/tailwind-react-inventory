@@ -57,6 +57,7 @@ router.post('/register/:username', async (req, res) => {
       const newUser = new User({ username: req.params.username, password: hash});
       res.status(200).send(newUser);
       console.log(res.status);
+      console.log(req.body)
     }
   }
   catch (error)  {
