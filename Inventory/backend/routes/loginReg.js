@@ -1,32 +1,38 @@
 const express = require('express');
 const router = express.Router();
-const cors = require('cors');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const cors = require('cors');
 const app = express();
 require('dotenv').config()
 
-app.use(cors());
-app.use(express.json());
-
+const userConn = process.env.USERDB;
 const loginToken = process.env.TOKEN;
+
+app.use(cors());
 
 // schema
 const schema = mongoose.Schema({
+  name: {type: String, required: true},
   username: {type: String, required: true},
   password: {type: String, required: true}
 });
 
+mongoose.connect(userConn);
+
 const User = mongoose.model('User', schema);
 
-app.post('/login', async (req, res) => {
+router.post('/login', async (req, res) => {
   try {
-    const { username, password } = req.body;
-    const user = User.findOne({username: username});
 
-    if (user && await bcrypt.compare(password, user.password)) {
-      const token = jwt.sign({ username }, loginToken);
+    const { user, password } = req.body;
+    console.log(user, password)
+    const exists = User.findOne({
+      username: user});
+
+    if (exists && await bcrypt.compare(password, exists.password)) {
+      const token = jwt.sign({ user }, loginToken);
       res.json({token})
     }
     else {
@@ -35,24 +41,23 @@ app.post('/login', async (req, res) => {
 
   } catch (err) {
     res.status(500).send({ error: 'Internal server error' });
-  } finally {
-    await client.close();
   }
 });
 
-router.post('/register', async (req, res) => {
+router.post('/register/:username', async (req, res) => {
   try{
-    const { username, password } = req.body;
-    const exists = await User.findOne({username: username});
-
+    const user = req.params.username;
+    const { name, username, password } = req.body;
+    const exists = await User.findOne({username: user});
+    
     if (exists) {
       return res.status(400).json({ error: 'Username already taken' });
     }
     else {
       const hash = await bcrypt.hash(password, 10);
-
-      const user = new User({ username: username, password: hash});
-      res.status(201).send(user);
+      const newUser = new User({ name: name, username: req.params.username, password: hash});
+      const saved = await newUser.save();
+      res.send(saved);
     }
   }
   catch (error)  {

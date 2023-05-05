@@ -5,14 +5,13 @@ const  { MongoClient } = require('mongodb');
 const mongodb = require('mongodb');
 const mongoose = require('mongoose');
 const nodemailer = require('nodemailer');
-const router = require('./routes/loginReg')
+const router = require('./routes/loginReg.js')
 require('dotenv').config();
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use('/auth', router);
 
 
 const email = process.env.EMAIL;
@@ -33,6 +32,10 @@ UserLogin.on('connected', () => {
   console.log('users can log in')
 });
 
+UserLogin.on('error', (error) => {
+  console.error('MongoDB connection error:', error);
+});
+
 //verifies mongodb connection was successful
 invDB.on('connected', () => {
   console.log("We have liftoff!");
@@ -42,6 +45,8 @@ invDB.on('connected', () => {
 employeeList.on('connected', () => {
   console.log("We have liftoff employee list!");
 });
+
+
 
 // schema
 const invSchema = mongoose.Schema({
@@ -63,6 +68,8 @@ const empSchema = mongoose.Schema({
 const InvItem = invDB.model('InventoryItems', invSchema);
 
 const EList = employeeList.model('Employees', empSchema);
+
+app.use(router);
 
 app.listen(port, () => {
   console.log(`Server listening at ${port}`);
