@@ -56,6 +56,7 @@ router.post('/register/:username', async (req, res) => {
       const hash = await bcrypt.hash(password, 10);
       const newUser = new User({ username: req.params.username, password: hash});
       res.status(200).send(newUser);
+      console.log(res.status);
     }
   }
   catch (error)  {
