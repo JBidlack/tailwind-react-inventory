@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import SelectComponent from '../checkout/dropdown';
+import withAuth from '../Authenticated.jsx'
 import '../../../App.css';
 import axios from 'axios';
 
@@ -243,4 +244,4 @@ function CheckIn (e) {
     );
 };
 
-export default CheckIn;
+export default withAuth(CheckIn);

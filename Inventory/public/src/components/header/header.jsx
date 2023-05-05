@@ -3,24 +3,14 @@ import {Link, Outlet, useNavigate} from 'react-router-dom'
 import TabletoPDF from '../body/printInv/print'
 import '../../App.css';
 
+
 const Header = () => {
 
-    const navigate = useNavigate();
-
-    useEffect(() => {
-
-        
-    }, [])
-
-    const logOut = async (e) => {
+    const logout = (e) => {
         e.preventDefault();
-    
-        try{
-            await account.deleteSession("current");
-            navigate('/login');    
-        } catch (error){
-                alert('Something went wrong! Please try again.');
-        }
+
+        localStorage.removeItem('token');
+        
     }
 
     return(
@@ -41,9 +31,7 @@ const Header = () => {
                             <Link to="/logged/editList">
                                 <button className='headerButtons'>Edit Employee List</button>
                             </Link>
-                            <Link to="/login">
-                                <button className="headerButtons" onClick={logOut}> Log-Out </button>
-                            </Link>
+                                <button className="headerButtons" onClick={(e) => logout(e) }> Log-Out </button>
                         </div>
                     </div>
                 </div>

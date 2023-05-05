@@ -15,7 +15,7 @@ function withAuth(Component){
 
         useEffect(() => {
             if(!isAuthenticated()) {
-                navigate('/login');
+                navigate('/');
             }
         }, []);
         return <Component {...props} />

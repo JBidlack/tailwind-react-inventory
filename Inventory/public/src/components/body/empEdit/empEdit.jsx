@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import SelectComponent from '../checkout/dropdown';
+import withAuth from '../Authenticated.jsx'
 import axios from 'axios';
 import '../../../App.css';
 
@@ -228,4 +229,4 @@ const Employees = () => {
     
 }
 
-export default Employees;
+export default withAuth(Employees);

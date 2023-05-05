@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import withAuth from '../Authenticated.jsx'
 import '../../../App.css'
 import axios from 'axios';
 import jsPDF from 'jspdf';
@@ -75,4 +76,4 @@ return (
     </div>);
 };
 
-export default TabletoPDF;
+export default withAuth(TabletoPDF);
