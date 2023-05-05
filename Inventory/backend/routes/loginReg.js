@@ -45,14 +45,14 @@ router.post('/register/:username', async (req, res) => {
     const user = req.params.username;
     const { username, password } = req.body;
     const exists = await User.findOne({username: user});
-    console.log(exists)
+    
     if (exists) {
       return res.status(400).json({ error: 'Username already taken' });
     }
     else {
       const hash = await bcrypt.hash(req.params.password, 10);
       const newUser = new User({ username: req.params.username, password: hash});
-      
+      console.log(hash, newUser)
       res.status(200).send(newUser);
     }
   }
