@@ -14,6 +14,7 @@ app.use(cors());
 
 // schema
 const schema = mongoose.Schema({
+  name: {type: String, required: true},
   username: {type: String, required: true},
   password: {type: String, required: true}
 });
@@ -46,7 +47,7 @@ router.post('/login', async (req, res) => {
 router.post('/register/:username', async (req, res) => {
   try{
     const user = req.params.username;
-    const { username, password } = req.body;
+    const { name, username, password } = req.body;
     const exists = await User.findOne({username: user});
     
     if (exists) {
@@ -54,10 +55,9 @@ router.post('/register/:username', async (req, res) => {
     }
     else {
       const hash = await bcrypt.hash(password, 10);
-      const newUser = new User({ username: req.params.username, password: hash});
+      const newUser = new User({ name: name, username: req.params.username, password: hash});
       const saved = await newUser.save();
       res.send(saved);
-      console.log(req.body)
     }
   }
   catch (error)  {
