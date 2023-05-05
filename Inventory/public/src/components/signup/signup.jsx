@@ -22,7 +22,7 @@ function SignUp() {
                 password: pw.value
             });
             if (response.status === 200){
-                navigate('../login');
+                navigate('../');
             }
             else{
                 console.log(response.status)
