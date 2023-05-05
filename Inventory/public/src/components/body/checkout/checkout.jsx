@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import SelectComponent from './dropdown.jsx';
 import '../../../App.css';
 import axios from 'axios';
+import withAuth from '../Authenticated.jsx'
 
 
 function Checkout (e) {
@@ -252,4 +253,4 @@ function Checkout (e) {
         );
 };
 
-export default Checkout;
+export default withAuth(Checkout);

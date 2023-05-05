@@ -23,23 +23,22 @@ mongoose.connect(userConn);
 
 const User = mongoose.model('User', schema);
 
-router.post('/login', async (req, res) => {
+router.post('/login/:username', async (req, res) => {
   try {
-
-    const { user, password } = req.body;
-    console.log(user, password)
-    const exists = User.findOne({
-      username: user});
-
+    const user = req.params.username;
+    const { name, username, password } = req.body;
+    const exists = await User.findOne({username: user});
+    
     if (exists && await bcrypt.compare(password, exists.password)) {
       const token = jwt.sign({ user }, loginToken);
       res.json({token})
     }
     else {
-      return res.status(400).json({ error: 'User does not exist. Please register.' });
+      return res.status(404).json({ error: 'User does not exist. Please register.' });
     }
 
   } catch (err) {
+    console.error("Error during login:", err);
     res.status(500).send({ error: 'Internal server error' });
   }
 });

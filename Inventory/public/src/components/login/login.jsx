@@ -16,10 +16,11 @@ function LogIn() {
         const pw = document.querySelector('input[name=pass]');
 
         try{
-            axios.post('/login', {
+            const response = await axios.post('/login/' + un.value, {
                 username: un.value,
                 password: pw.value
             });
+
             localStorage.setItem('token', response.data.token);
             navigate('../logged/checkout');
         } catch (error){
@@ -60,7 +61,7 @@ function LogIn() {
                 </div>
                 <div className='flex justify-center align-middle'>
                     <button type='submit' className='bg-black text-yellow-400 
-                        py-2 p-3 rounded-lg' onClick={loginUser}>
+                        py-2 p-3 rounded-lg' onClick={(e) => loginUser(e)}>
                             Log-In
                     </button>
                 </div>
