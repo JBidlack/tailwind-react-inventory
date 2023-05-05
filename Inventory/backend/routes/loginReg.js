@@ -3,11 +3,14 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const cors = require('cors');
+const app = express();
 require('dotenv').config()
+
 const userConn = process.env.USERDB;
-
-
 const loginToken = process.env.TOKEN;
+
+app.use(cors());
 
 // schema
 const schema = mongoose.Schema({
