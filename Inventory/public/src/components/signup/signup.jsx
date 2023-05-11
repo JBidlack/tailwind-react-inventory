@@ -9,6 +9,12 @@ function SignUp() {
     const [userExists, setUserExists] = useState(false);
     const navigate = useNavigate();
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        navigate('/');
+    }
+
     const newAcct = async (e) => {
 
         e.preventDefault();
@@ -82,7 +88,7 @@ function SignUp() {
                     </button>
                 </div>
                 <div className='flex justify-center align-middle pt-2'>
-                        <a href='/login' >Log-In Here</a>
+                <button type='submit' onClick={(e) =>handleSubmit(e)} className=' bg-transparent'>Already a user? Sign-In Here</button>
                 </div>
             </form>
         </div>

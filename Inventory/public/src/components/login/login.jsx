@@ -71,8 +71,8 @@ function LogIn() {
                             Log-In
                     </button>
                 </div>
-                <div type='submit' className='flex justify-center align-middle pt-2'>
-                        Sign-Up Here
+                <div className='flex justify-center align-middle pt-2'>
+                        <button type='submit' onClick={(e) =>handleSubmit(e)} className=' bg-transparent'>Sign-Up Here</button>
                 </div>
             </form>
         </div>
