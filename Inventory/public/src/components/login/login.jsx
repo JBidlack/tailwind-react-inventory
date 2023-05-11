@@ -9,6 +9,12 @@ function LogIn() {
     const [userError, setUserError] = useState(false);
     const navigate = useNavigate();
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        navigate('/signup');
+    }
+
     const loginUser = async (e) => {
         e.preventDefault();
 
@@ -65,8 +71,8 @@ function LogIn() {
                             Log-In
                     </button>
                 </div>
-                <div className='flex justify-center align-middle pt-2'>
-                        <a href='/signup' >Sign-Up Here</a>
+                <div type='submit' className='flex justify-center align-middle pt-2'>
+                        Sign-Up Here
                 </div>
             </form>
         </div>
