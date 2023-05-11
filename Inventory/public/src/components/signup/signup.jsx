@@ -19,23 +19,26 @@ function SignUp() {
 
         e.preventDefault();
 
+        const userName = document.querySelector('input[name=name]');
         const un = document.querySelector('input[name=email]');
         const pw = document.querySelector('input[name=pass]');
 
         try{
-            const response = await axios.post('/register/' + un.value, {
+
+            const response = await axios.post(`/register/${un.value}`, {
+                name: userName.value,
                 username: un.value,
                 password: pw.value
             });
+
             if (response.status === 200){
-                navigate('../');
+                navigate('/');
             }
             else{
                 console.log(response.status)
             }
         }
         catch(error) {
-            console.log(pw.value)
             console.log(error)
             setUserExists(true);
         }
@@ -52,6 +55,7 @@ function SignUp() {
                 font-extrabold pb-4'>User already exists. </div>}
                 <div className='flex flex-col justify-start pb-10'>
                     <label 
+                        name='name'
                         htmlFor='name'
                         className='text-sm pr-4 block'>Please Enter your Name:</label>
                     <input 
@@ -82,7 +86,7 @@ function SignUp() {
                     />
                 </div>
                 <div className='flex justify-center align-middle'>
-                    <button type='submit' className='bg-black text-yellow-400 
+                    <button className='bg-black text-yellow-400 
                         py-2 p-3 rounded-lg' onClick={(e) => newAcct(e)}>
                             Sign Up
                     </button>

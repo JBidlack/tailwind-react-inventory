@@ -29,6 +29,7 @@ function LogIn() {
 
             localStorage.setItem('token', response.data.token);
             navigate('../logged/checkout');
+            
         } catch (error){
             setUserError(true);
         }
