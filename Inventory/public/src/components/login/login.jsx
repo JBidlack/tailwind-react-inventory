@@ -9,17 +9,17 @@ function LogIn() {
     const [userError, setUserError] = useState(false);
     const navigate = useNavigate();
 
-    // useEffect(() => {
-    //     async function fetchData() {
-    //       try {
-    //         const response = await axios.get('/api/items');
-    //         const warmup =response.data;
-    //       } catch (err) {
-    //         console.error(err);
-    //       }
-    //     }
-    //     fetchData();
-    //   }, []);
+    useEffect(() => {
+        async function fetchData() {
+          try {
+            const response = await axios.get('/api/items');
+            const warmup =response.data;
+          } catch (err) {
+            console.error(err);
+          }
+        }
+        fetchData();
+      }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault();
