@@ -177,9 +177,9 @@ app.get('/api/employees', async (req, res) => {
 
 app.put('/api/employees/:Name/new', async (req, res) => {
   try{
-    const email = req.params.Email;
+
     const{ Name, Dept, Email, Admin } = req.body;
-    const existing = await EList.findOne({Email: email});
+    const existing = await EList.findOne({Email: req.params.Email});
 
     if(existing){
       alert("This name already exists!");
