@@ -177,9 +177,9 @@ app.get('/api/employees', async (req, res) => {
 
 app.put('/api/employees/:Name/new', async (req, res) => {
   try{
-    const name = req.params.Name;
-    const{ Dept, Email, Admin } = req.body;
-    const existing = await EList.findOne({Name: name});
+    const email = req.params.Email;
+    const{ Name, Dept, Email, Admin } = req.body;
+    const existing = await EList.findOne({Email: email});
 
     if(existing){
       alert("This name already exists!");
@@ -187,9 +187,9 @@ app.put('/api/employees/:Name/new', async (req, res) => {
     else {
       const newEmp = new EList({
         _id: new mongodb.ObjectId(),
-        Name: req.params.Name,
+        Name: Name,
         Dept: Dept,
-        Email: Email,
+        Email: req.params.Email,
         Admin: Admin
       });
       const saved = await newEmp.save();

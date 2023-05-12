@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 import '../../App.css'
@@ -8,6 +8,18 @@ function LogIn() {
 
     const [userError, setUserError] = useState(false);
     const navigate = useNavigate();
+
+    // useEffect(() => {
+    //     async function fetchData() {
+    //       try {
+    //         const response = await axios.get('/api/items');
+    //         const warmup =response.data;
+    //       } catch (err) {
+    //         console.error(err);
+    //       }
+    //     }
+    //     fetchData();
+    //   }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault();

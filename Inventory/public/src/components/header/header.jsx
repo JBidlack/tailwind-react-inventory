@@ -6,10 +6,13 @@ import '../../App.css';
 
 const Header = () => {
 
+    const navigate = useNavigate(); 
+
     const logout = (e) => {
         e.preventDefault();
 
         localStorage.removeItem('token');
+        navigate('/');
         
     }
 

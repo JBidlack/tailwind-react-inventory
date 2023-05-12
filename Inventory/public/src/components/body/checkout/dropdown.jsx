@@ -33,12 +33,12 @@ const SelectComponent = ({
     const onInputChange = (e) => {
         setInputValues(e.target.value);
     }
+
     const onItemSelect  = (option) => {
         onChange !== undefined && onChange(option.key)
         onChange !== undefined && setInputValues(option.value)
         setOpen(false);
     }
-
 
     const onInputClick = () => {
         setOpen((previousInput) => !previousInput);
