@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Loading from '../loading';
 import {useNavigate} from 'react-router-dom';
 import '../../App.css'
 
@@ -7,15 +8,21 @@ import '../../App.css'
 function LogIn() {
 
     const [userError, setUserError] = useState(false);
+    const [isLoading, setIsLoading] = useState(true)
     const navigate = useNavigate();
 
     useEffect(() => {
         async function fetchData() {
+            setIsLoading(true);
+
           try {
             const response = await axios.get('/api/items');
             const warmup =response.data;
           } catch (err) {
             console.error(err);
+          }
+          finally {
+            setIsLoading(false);
           }
         }
         fetchData();
@@ -51,6 +58,7 @@ function LogIn() {
 
     return(
         <div className ='h-screen flex justify-center items-center content-center pt-20'>
+            {isLoading ? <Loading /> :
             <form className='bg-yellow-400 flex justify-start flex-col items-left 
                 w-1/4 h-1/2 p-10 rounded-lg shadow-md'>
                 <div className='flex justify-start pb-10'>
@@ -59,7 +67,7 @@ function LogIn() {
                 {userError && <div className='flex justify-center text-base text-red-600
                 font-extrabold pb-4'>Username or Password is incorrect. Please try again. </div>}
                 <div className='flex flex-col justify-center pb-10'>
-                    <label htmlFor='email' className='text-sm pr-4 block'>Enter your E-Mail:</label>
+                    <label className='text-sm pr-4 block'>Enter your E-Mail:</label>
                     <input 
                         name='email' 
                         type='email' 
@@ -69,7 +77,7 @@ function LogIn() {
                 </div>
                 <div className='flex flex-col justify-center pb-20'>
                     <label 
-                        htmlFor='password'
+                        
                         className='text-sm pr-4 block'>Enter Password:</label>
                     <input 
                         name='pass' 
@@ -87,7 +95,7 @@ function LogIn() {
                 <div className='flex justify-center align-middle pt-2'>
                         <button type='submit' onClick={(e) =>handleSubmit(e)} className=' bg-transparent'>Sign-Up Here</button>
                 </div>
-            </form>
+            </form>}
         </div>
     );
 }

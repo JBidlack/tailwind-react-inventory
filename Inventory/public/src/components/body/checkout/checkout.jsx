@@ -140,7 +140,7 @@ function Checkout (e) {
 
     return(
         <div className="w-full flex min-h-[85%] ">
-            <div className='w-1/2 overflow-auto flex flex-col justify-center items-center top-1/4 min-h-full border-gray-500'>
+            <div className='w-1/2 overflow-y-auto flex flex-col justify-center items-center top-1/4 min-h-full border-gray-500'>
                 <form className='shadow-md shadow-gray-600 shadow-right-xl 
                 rounded-lg p-4 flex flex-col justify-center mt-4 mb-4 bg-white'>
                     <label className='flex justify-center text-xl font-bold mb-4'>
