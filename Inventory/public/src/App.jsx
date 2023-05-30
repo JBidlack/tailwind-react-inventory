@@ -14,7 +14,7 @@ function App() {
 
   // Declare axios default url here to prevent unneeded repetition
   
-  axios.defaults.baseURL= 'https://inventory-backend-g3hs.onrender.com';
+  axios.defaults.baseURL= import.meta.env.VITE_DEFAULT_URL;
 
   return (
     <Router >
