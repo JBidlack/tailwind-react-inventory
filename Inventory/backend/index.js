@@ -262,6 +262,7 @@ const sendEmail = (item) => {
   mailer.sendMail(mailOpt, (error, info) => {
     if (error){
       console.log(error);
+      
     }
     else {
       console.log(`${item} is running low. An email has been sent to the department supervisor.`);
