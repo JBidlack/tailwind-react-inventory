@@ -243,7 +243,7 @@ app.delete('/api/employees/:Name/delete', async (req, res) => {
 }); 
 
 const mailer = nodemailer.createTransport({
-  service: 'hotmail',
+  service: 'gmail',
   auth: {
     user: email,
     pass: pass
