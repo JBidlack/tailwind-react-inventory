@@ -34,4 +34,4 @@ function App() {
 
 export default App
 
-export const server = axios.defaults.baseURL= 'https://inventory-backend-g3hs.onrender.com';
+export const server = axios.defaults.baseURL= import.meta.env.VITE_DEFAULT_URL;
