@@ -108,15 +108,20 @@ function Checkout (e) {
           Quantity: parseInt(quantityInput.value)
         })
           .then((response) => {
-            setItems(previous => previous.map((item) => {
-              if (item.Item === selectComponent) {
-                return { ...item, Quantity: response.data.Quantity }
-              }
-              else {
-                return item
-              }
-            }))
-          })
+            if(parseInt(response.data.Quantity) < 0){
+            alert(`Not enough ${selectComponent} to complete this transaction. Please notify a supervisor`)
+            }
+            else{
+              setItems(previous => previous.map((item) => {
+                if (item.Item === selectComponent) {
+                  return { ...item, Quantity: response.data.Quantity }
+                }
+                else {
+                  return item
+                }
+              }))
+            }}
+          )
           .catch((error) => {
             console.log(error.response.data)
           });
